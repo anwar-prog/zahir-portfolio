@@ -542,13 +542,185 @@ const translations = {
   },
 };
 
+/* ─── Contact Modal ──────────────────────────────────────────── */
+function ContactModal({ onClose, lang }) {
+  const isDE = lang === "de";
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState("idle");
+
+  const subjects = isDE
+    ? ["Jobangebot", "Forschungskooperation", "Projektgespräch", "Nur Hallo sagen"]
+    : ["Job opportunity", "Research collaboration", "Project discussion", "Just saying hello"];
+
+  const validate = () => {
+    const e = {};
+    if (!form.name.trim()) e.name = isDE ? "Bitte gib deinen Namen ein." : "Please enter your name.";
+    if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) e.email = isDE ? "Bitte gib eine gültige E-Mail ein." : "Please enter a valid email.";
+    if (!form.message.trim()) e.message = isDE ? "Bitte schreib eine Nachricht." : "Please write a message.";
+    return e;
+  };
+
+  const handleSubmit = async () => {
+    const e = validate();
+    if (Object.keys(e).length) { setErrors(e); return; }
+    setStatus("sending");
+    try {
+      const res = await fetch("https://formspree.io/f/xreyzoyn", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(form),
+      });
+      setStatus(res.ok ? "success" : "error");
+    } catch { setStatus("error"); }
+  };
+
+  const field = (key) => ({
+    style: {
+      width: "100%", background: "rgba(15,23,42,0.8)",
+      border: `1px solid ${errors[key] ? "rgba(248,113,113,0.5)" : "rgba(51,65,85,0.7)"}`,
+      borderRadius: 12, padding: "11px 14px", color: "#e2e8f0", fontSize: 14,
+      fontFamily: "'Outfit',sans-serif", outline: "none", transition: "border-color 0.2s", boxSizing: "border-box",
+    },
+    onFocus: (e) => { e.target.style.borderColor = errors[key] ? "rgba(248,113,113,0.7)" : "rgba(6,182,212,0.5)"; },
+    onBlur: (e) => { e.target.style.borderColor = errors[key] ? "rgba(248,113,113,0.5)" : "rgba(51,65,85,0.7)"; },
+    onChange: (e) => {
+      setForm((f) => ({ ...f, [key]: e.target.value }));
+      if (errors[key]) setErrors((ev) => ({ ...ev, [key]: null }));
+    },
+  });
+
+  const ErrorMsg = ({ k }) => errors[k]
+    ? <p style={{ color: "#f87171", fontSize: 11, marginTop: 4, marginLeft: 2 }}>{errors[k]}</p>
+    : null;
+
+  const labelStyle = { fontSize: 11, fontWeight: 700, letterSpacing: "0.07em", color: "#64748b", textTransform: "uppercase", marginBottom: 5, display: "block" };
+
+  return (
+    <div onClick={onClose} style={{
+      position: "fixed", inset: 0, zIndex: 1000,
+      background: "rgba(0,0,0,0.7)", backdropFilter: "blur(8px)",
+      display: "flex", alignItems: "center", justifyContent: "center", padding: "20px",
+    }}>
+      <div onClick={(e) => e.stopPropagation()} style={{
+        background: "linear-gradient(135deg, #0d1a2e, #0a1628)",
+        border: "1px solid rgba(6,182,212,0.3)", borderRadius: 24,
+        padding: "36px 40px", maxWidth: 460, width: "100%",
+        boxShadow: "0 40px 80px rgba(0,0,0,0.6)", animation: "fadeUp 0.3s ease",
+        maxHeight: "90vh", overflowY: "auto",
+      }}>
+
+        {status === "success" ? (
+          <div style={{ textAlign: "center", padding: "20px 0" }}>
+            <div style={{ width: 64, height: 64, borderRadius: "50%", background: "rgba(16,185,129,0.15)", border: "1px solid rgba(16,185,129,0.3)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px" }}>
+              <svg width="28" height="28" fill="none" stroke="#10b981" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3 style={{ fontFamily: "'Outfit',sans-serif", fontWeight: 800, fontSize: 22, color: "#e2e8f0", marginBottom: 12 }}>
+              {isDE ? "Nachricht gesendet!" : "Message sent!"}
+            </h3>
+            <p style={{ color: "#64748b", fontSize: 14, lineHeight: 1.7, marginBottom: 28 }}>
+              {isDE ? "Vielen Dank. Ich melde mich so schnell wie möglich." : "Thanks for reaching out. I'll get back to you as soon as possible."}
+            </p>
+            <button onClick={onClose} className="btn-primary" style={{ margin: "0 auto" }}>
+              {isDE ? "Schließen" : "Close"}
+            </button>
+          </div>
+        ) : (
+          <>
+            {/* Header */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg,#06b6d4,#3b82f6)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <svg width="16" height="16" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  </div>
+                  <h3 style={{ fontSize: 20, fontWeight: 800, color: "#e2e8f0", fontFamily: "'Outfit',sans-serif" }}>
+                    {isDE ? "Nachricht senden" : "Get In Touch"}
+                  </h3>
+                </div>
+                <p style={{ color: "#64748b", fontSize: 13 }}>
+                  {isDE ? "Ich antworte in der Regel innerhalb eines Tages." : "I typically respond within a day."}
+                </p>
+              </div>
+              <button onClick={onClose} style={{ background: "rgba(255,255,255,0.06)", border: "none", color: "#64748b", width: 32, height: 32, borderRadius: "50%", cursor: "pointer", fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>×</button>
+            </div>
+
+            <div style={{ height: 1, background: "rgba(6,182,212,0.15)", margin: "18px 0" }} />
+
+            {/* Fields */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+
+              <div>
+                <label style={labelStyle}>{isDE ? "Name" : "Name"} <span style={{ color: "#f87171" }}>*</span></label>
+                <input value={form.name} placeholder={isDE ? "Dein Name" : "Your name"} {...field("name")} />
+                <ErrorMsg k="name" />
+              </div>
+
+              <div>
+                <label style={labelStyle}>{isDE ? "E-Mail" : "Email"} <span style={{ color: "#f87171" }}>*</span></label>
+                <input value={form.email} type="email" placeholder={isDE ? "Deine E-Mail-Adresse" : "Your email address"} {...field("email")} />
+                <ErrorMsg k="email" />
+              </div>
+
+              <div>
+                <label style={labelStyle}>{isDE ? "Betreff" : "Subject"} <span style={{ color: "#475569", fontWeight: 400, textTransform: "none", fontSize: 10 }}>{isDE ? "(optional)" : "(optional)"}</span></label>
+                <select value={form.subject}
+                  style={{ ...field("subject").style, color: form.subject ? "#e2e8f0" : "#64748b", cursor: "pointer" }}
+                  onFocus={field("subject").onFocus} onBlur={field("subject").onBlur}
+                  onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}>
+                  <option value="" style={{ background: "#0d1a2e" }}>{isDE ? "Worum geht es?" : "What is this about?"}</option>
+                  {subjects.map((s) => <option key={s} value={s} style={{ background: "#0d1a2e" }}>{s}</option>)}
+                </select>
+              </div>
+
+              <div>
+                <label style={labelStyle}>{isDE ? "Nachricht" : "Message"} <span style={{ color: "#f87171" }}>*</span></label>
+                <textarea value={form.message} placeholder={isDE ? "Was liegt dir am Herzen…" : "Tell me what you have in mind…"}
+                  style={{ ...field("message").style, resize: "none", minHeight: 100 }}
+                  onFocus={field("message").onFocus} onBlur={field("message").onBlur}
+                  onChange={(e) => { setForm((f) => ({ ...f, message: e.target.value })); if (errors.message) setErrors((ev) => ({ ...ev, message: null })); }} />
+                <ErrorMsg k="message" />
+              </div>
+
+            </div>
+
+            {/* Send */}
+            <button onClick={handleSubmit} disabled={status === "sending"} className="btn-primary"
+              style={{ width: "100%", marginTop: 20, justifyContent: "center", opacity: status === "sending" ? 0.8 : 1 }}>
+              {status === "sending" ? (
+                <>{isDE ? "Wird gesendet…" : "Sending…"}</>
+              ) : (
+                <>{isDE ? "Nachricht senden" : "Send Message"}
+                  <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                </>
+              )}
+            </button>
+
+            {/* Fallback */}
+            <p style={{ textAlign: "center", marginTop: 16, fontSize: 12, color: "#475569" }}>
+              {isDE ? "Lieber direkt schreiben?" : "Prefer direct email?"}{" "}
+              <a href="mailto:zsharikanwar@gmail.com" style={{ color: "#06b6d4", textDecoration: "none" }}>zsharikanwar@gmail.com</a>
+            </p>
+            {status === "error" && (
+              <p style={{ textAlign: "center", marginTop: 8, fontSize: 12, color: "#f87171" }}>
+                {isDE ? "Etwas ist schiefgelaufen. Bitte schreib direkt per E-Mail." : "Something went wrong. Please try via email."}
+              </p>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* ═══════════════════════════════════════════════════════════════
    MAIN APP
 ═══════════════════════════════════════════════════════════════ */
 function App() {
   const [scrolled, setScrolled] = useState(false);
-  const [lang, setLang] = useState("en");
+  const [lang, setLang] = useState("de");
   const [showCVModal, setShowCVModal] = useState(false);
+  const [showContactModal, setShowContactModal] = useState(false);
   const [heroVisible, setHeroVisible] = useState(false);
   const [heroOpacity, setHeroOpacity] = useState(1);
 
@@ -646,21 +818,27 @@ function App() {
                   </a>
                 ))}
                 <div style={{ display: "flex", gap: 6, alignItems: "center", marginLeft: 8, background: "rgba(255,255,255,0.04)", borderRadius: 24, padding: "4px 6px", border: "1px solid rgba(255,255,255,0.07)" }}>
-                  <button className={`lang-btn${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</button>
                   <button className={`lang-btn${lang === "de" ? " active" : ""}`} onClick={() => setLang("de")}>DE</button>
+                  <button className={`lang-btn${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</button>
                 </div>
                 {[
                   { href: "https://github.com/anwar-prog", icon: <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg> },
                   { href: "https://www.linkedin.com/in/sharik-anwar-zahir-hussain/", icon: <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> },
-                  { href: "mailto:zsharikanwar@gmail.com", icon: <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> },
                 ].map(({ href, icon }, i) => (
-                  <a key={i} href={href} target={href.startsWith("mailto") ? undefined : "_blank"} rel="noreferrer"
+                  <a key={i} href={href} target="_blank" rel="noreferrer"
                     style={{ color: "#64748b", transition: "color 0.2s", display: "flex" }}
                     onMouseEnter={(e) => (e.currentTarget.style.color = "#06b6d4")}
                     onMouseLeave={(e) => (e.currentTarget.style.color = "#64748b")}>
                     {icon}
                   </a>
                 ))}
+                {/* Email icon → opens contact modal */}
+                <button onClick={() => setShowContactModal(true)}
+                  style={{ background: "none", border: "none", cursor: "pointer", color: "#64748b", display: "flex", padding: 0, transition: "color 0.2s" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#06b6d4")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#64748b")}>
+                  <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                </button>
               </div>
             </div>
           </nav>
@@ -899,7 +1077,7 @@ function App() {
                 </svg>
                 <h3 className="section-title" style={{ fontSize:24, marginBottom:16 }}>{t.ctaTitle}</h3>
                 <p style={{ color:"#64748b", maxWidth:520, margin:"0 auto 32px", lineHeight:1.8, fontSize:15 }}>{t.ctaText}</p>
-                <a href="mailto:zsharikanwar@gmail.com" className="btn-primary">{t.ctaBtn}</a>
+                <button onClick={() => setShowContactModal(true)} className="btn-primary">{t.ctaBtn}</button>
               </div>
             </div>
           </section>
@@ -911,6 +1089,7 @@ function App() {
 
           {/* ══ CV MODAL ═════════════════════════════════════════════ */}
           {showCVModal && <CVModal onClose={() => setShowCVModal(false)} lang={lang} />}
+          {showContactModal && <ContactModal onClose={() => setShowContactModal(false)} lang={lang} />}
 
         </div>
       } />
