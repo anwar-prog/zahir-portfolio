@@ -48,12 +48,12 @@ function LanguageCard({ name, code, level, color }) {
 }
 
 /* ─── Featured project card ──────────────────────────────────── */
-function FeaturedProject({ title, subtitle, description, achievements, achievementsLabel, tags, githubUrl, color, index }) {
+function FeaturedProject({ title, subtitle, description, achievements, achievementsLabel, tags, githubUrl, color, index, panel }) {
   const isEven = index % 2 === 0;
   return (
     <div className="relative rounded-2xl overflow-hidden border border-slate-700/50 mb-10"
       style={{ background: "rgba(15,23,42,0.8)" }}>
-      <div className={`flex flex-col md:flex-row ${!isEven ? "md:flex-row-reverse" : ""}`}>
+      <div className="flex flex-col md:flex-row">
         <div className="flex-1 p-8 md:p-10">
           <h3 className="text-2xl font-bold text-white mb-1">{title}</h3>
           <p className="text-cyan-400 font-semibold text-sm mb-4">{subtitle}</p>
@@ -84,18 +84,30 @@ function FeaturedProject({ title, subtitle, description, achievements, achieveme
             </a>
           )}
         </div>
-        <div className="md:w-72 flex items-center justify-center p-8 relative overflow-hidden"
-          style={{ background: `linear-gradient(135deg, ${color}22, ${color}08)` }}>
-          <div className="absolute inset-0 opacity-10"
-            style={{ background: `radial-gradient(circle at center, ${color}, transparent 70%)` }} />
-          <div className="relative z-10 rounded-2xl p-6 text-center"
-            style={{ background: `linear-gradient(135deg, ${color}cc, ${color}99)` }}>
-            <div className="text-4xl font-black text-white mb-1">{achievements[0].split(" ")[0]}</div>
-            <div className="text-xs font-bold tracking-widest text-white/80 uppercase">
-              {achievements[0].split(" ").slice(1).join(" ")}
-            </div>
+
+        {/* ── Info panel ── */}
+        <div className="md:w-64 flex flex-col justify-center p-7 relative"
+          style={{ background: `linear-gradient(160deg, ${color}10, ${color}04)`, borderLeft: `1px solid ${color}20` }}>
+          <div style={{ position:"absolute", inset:0, background:`radial-gradient(ellipse at 50% 0%, ${color}10, transparent 70%)`, pointerEvents:"none" }} />
+          <div style={{ position:"relative", zIndex:1 }}>
+            {panel.map((row, i) => (
+              <div key={i}>
+                <div style={{ display:"flex", flexDirection:"column", gap:3, padding:"12px 0" }}>
+                  <span style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:`${color}99`, textTransform:"uppercase" }}>
+                    {row.label}
+                  </span>
+                  <span style={{ fontSize:13, fontWeight:500, color: i === panel.length - 1 ? color : "#cbd5e1", lineHeight:1.4 }}>
+                    {row.value}
+                  </span>
+                </div>
+                {i < panel.length - 1 && (
+                  <div style={{ height:1, background:"rgba(51,65,85,0.5)" }} />
+                )}
+              </div>
+            ))}
           </div>
         </div>
+
       </div>
     </div>
   );
@@ -253,6 +265,13 @@ const translations = {
         tags: ["Python", "Scikit-learn", "TensorFlow", "LSTM", "Time Series", "Pandas"],
         color: "#06b6d4",
         githubUrl: "https://github.com/anwar-prog/AI-Based-Heat-Demand-Forecasting",
+        panel: [
+          { label: "Domain",   value: "Energy AI" },
+          { label: "Dataset",  value: "38,784 hourly records" },
+          { label: "Models",   value: "LR · SVR · FFNN · LSTM" },
+          { label: "Role",     value: "ML Research" },
+          { label: "Outcome",  value: "SVR best for day-ahead forecasting" },
+        ],
       },
       {
         title: "3D Object Detection",
@@ -268,6 +287,13 @@ const translations = {
         tags: ["Computer Vision", "CNN", "VGG", "Transfer Learning", "Python", "PyTorch"],
         color: "#8b5cf6",
         githubUrl: "https://github.com/anwar-prog/3D-Object-Detection",
+        panel: [
+          { label: "Domain",     value: "Computer Vision" },
+          { label: "Input",      value: "Industrial images + CAD data" },
+          { label: "Model",      value: "VGG CNN" },
+          { label: "Techniques", value: "Transfer Learning" },
+          { label: "Outcome",    value: "Real-time inspection capability" },
+        ],
       },
       {
         title: "Reinforcement Learning Blackjack",
@@ -282,6 +308,13 @@ const translations = {
         tags: ["Python", "Reinforcement Learning", "Q-Learning", "Simulation", "Policy Optimization"],
         color: "#10b981",
         githubUrl: "https://github.com/anwar-prog/Reinforcement-Learning-Approaches-to-Blackjack",
+        panel: [
+          { label: "Domain",      value: "Reinforcement Learning" },
+          { label: "Algorithm",   value: "Q-Learning" },
+          { label: "Environment", value: "Blackjack simulator" },
+          { label: "Variants",    value: "Hi-Lo + Zen counting" },
+          { label: "Outcome",     value: "Improved decision strategy" },
+        ],
       },
     ],
     pubSectionLabel: "RESEARCH",
@@ -411,6 +444,13 @@ const translations = {
         tags: ["Python", "Scikit-learn", "TensorFlow", "LSTM", "Zeitreihen", "Pandas"],
         color: "#06b6d4",
         githubUrl: "https://github.com/anwar-prog/AI-Based-Heat-Demand-Forecasting",
+        panel: [
+          { label: "Bereich",   value: "Energie-KI" },
+          { label: "Datensatz", value: "38.784 Stundeneinträge" },
+          { label: "Modelle",   value: "LR · SVR · FFNN · LSTM" },
+          { label: "Rolle",     value: "ML-Forschung" },
+          { label: "Ergebnis",  value: "SVR am besten für Tagesprognose" },
+        ],
       },
       {
         title: "3D-Objekterkennung",
@@ -426,6 +466,13 @@ const translations = {
         tags: ["Computer Vision", "CNN", "VGG", "Transfer Learning", "Python", "PyTorch"],
         color: "#8b5cf6",
         githubUrl: "https://github.com/anwar-prog/3D-Object-Detection",
+        panel: [
+          { label: "Bereich",     value: "Computer Vision" },
+          { label: "Eingabe",     value: "Industriebilder + CAD-Daten" },
+          { label: "Modell",      value: "VGG CNN" },
+          { label: "Techniken",   value: "Transfer Learning" },
+          { label: "Ergebnis",    value: "Echtzeit-Inspektionsfähigkeit" },
+        ],
       },
       {
         title: "Bestärkendes Lernen: Blackjack",
@@ -440,6 +487,13 @@ const translations = {
         tags: ["Python", "Bestärkendes Lernen", "Q-Learning", "Simulation", "Policy-Optimierung"],
         color: "#10b981",
         githubUrl: "https://github.com/anwar-prog/Reinforcement-Learning-Approaches-to-Blackjack",
+        panel: [
+          { label: "Bereich",      value: "Bestärkendes Lernen" },
+          { label: "Algorithmus",  value: "Q-Learning" },
+          { label: "Umgebung",     value: "Blackjack-Simulator" },
+          { label: "Varianten",    value: "Hi-Lo + Zen-Zählung" },
+          { label: "Ergebnis",     value: "Verbesserte Entscheidungsstrategie" },
+        ],
       },
     ],
     pubSectionLabel: "FORSCHUNG",
