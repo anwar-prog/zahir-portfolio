@@ -356,10 +356,16 @@ const translations = {
       { label: "GitHub", value: "github.com/anwar-prog" },
       { label: "Location", value: "Würzburg, Germany" },
     ],
+    locationCard: [
+      "Based in Würzburg, Germany",
+      "Open to relocation across the EU",
+      "Authorized to work in Germany",
+    ],
     ctaTitle: "Ready to Build Something Impactful?",
     ctaText: "I'm actively seeking opportunities in AI engineering and research where I can apply ML expertise to solve real-world problems. Whether it's a full-time role or a research collaboration — let's talk.",
     ctaBtn: "Get In Touch",
     footer: "Built with React & TailwindCSS",
+    easterHint: "You made it to the end… try pressing the last letter of the alphabet on your keyboard.",
   },
 
   de: {
@@ -535,12 +541,78 @@ const translations = {
       { label: "GitHub", value: "github.com/anwar-prog" },
       { label: "Standort", value: "Würzburg, Deutschland" },
     ],
+    locationCard: [
+      "Wohnhaft in Würzburg, Deutschland",
+      "Offen für Umzug innerhalb der EU",
+      "Arbeitserlaubnis in Deutschland",
+    ],
     ctaTitle: "Bereit, etwas Wirkungsvolles zu bauen?",
     ctaText: "Ich suche aktiv nach Möglichkeiten im KI-Engineering und in der Forschung. Ob Vollzeitstelle oder Forschungskooperation — ich freue mich auf das Gespräch.",
     ctaBtn: "Kontakt aufnehmen",
     footer: "Erstellt mit React & TailwindCSS",
+    easterHint: "Du hast es bis zum Ende geschafft… drück den letzten Buchstaben des Alphabets auf deiner Tastatur.",
   },
 };
+
+/* ─── Easter Egg Modal ───────────────────────────────────────── */
+function EasterEggModal({ onClose, lang }) {
+  const isDE = lang === "de";
+  const [opacity, setOpacity] = useState(1);
+
+  useEffect(() => {
+    const fadeTimer = setTimeout(() => setOpacity(0), 6000);
+    const closeTimer = setTimeout(() => onClose(), 8000);
+    return () => { clearTimeout(fadeTimer); clearTimeout(closeTimer); };
+  }, []);
+
+  return (
+    <div onClick={onClose} style={{
+      position:"fixed", inset:0, zIndex:1000,
+      background:"rgba(0,0,0,0.55)", backdropFilter:"blur(10px)",
+      display:"flex", alignItems:"center", justifyContent:"center", padding:20,
+      opacity, transition:"opacity 2s ease",
+    }}>
+      {/* Glow pulse behind card */}
+      <div style={{
+        position:"absolute", width:420, height:280, borderRadius:"50%",
+        background:"radial-gradient(ellipse, rgba(6,182,212,0.18), transparent 70%)",
+        animation:"eggGlow 1.2s ease-out forwards", pointerEvents:"none",
+      }} />
+
+      <div onClick={(e) => e.stopPropagation()} style={{
+        background:"linear-gradient(135deg,#0b1829,#08121f)",
+        border:"1px solid rgba(6,182,212,0.25)", borderRadius:20,
+        padding:"28px 36px", maxWidth:520, width:"100%",
+        boxShadow:"0 24px 60px rgba(0,0,0,0.55), 0 0 40px rgba(6,182,212,0.06)",
+        animation:"eggAppear 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards",
+        textAlign:"center",
+      }}>
+        {/* Badge */}
+        <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(6,182,212,0.1)", border:"1px solid rgba(6,182,212,0.25)", borderRadius:20, padding:"3px 11px", marginBottom:16 }}>
+          <span style={{ fontSize:10 }}>🔓</span>
+          <span style={{ fontSize:9, fontWeight:700, letterSpacing:"0.12em", color:"#06b6d4", textTransform:"uppercase" }}>
+            {isDE ? "Easter Egg Entsperrt" : "Easter Egg Unlocked"}
+          </span>
+        </div>
+
+        {/* Star */}
+
+        <h3 style={{ fontFamily:"'Outfit',sans-serif", fontWeight:800, fontSize:19, color:"#06b6d4", marginBottom:16, whiteSpace:"nowrap" }}>
+          {isDE ? "Respekt!! Du hast Z gedrückt" : "Respect!! You pressed Z"}
+        </h3>
+
+        <p style={{ color:"#64748b", fontSize:12, lineHeight:1.9, margin:0 }}>
+          {isDE ? "Was wahrscheinlich eines von zwei Dingen bedeutet:" : "Which probably means one of two things:"}<br/>
+          <span style={{ color:"#94a3b8" }}>
+            {isDE
+              ? <>Wenn du <strong style={{ color:"#e2e8f0" }}>einstellst</strong> → LinkedIn und E-Mail warten oben.<br/>Wenn du <strong style={{ color:"#e2e8f0" }}>erkundest</strong> → danke für die Neugier.</>
+              : <>If you're <strong style={{ color:"#e2e8f0" }}>hiring</strong> → LinkedIn and email are waiting above.<br/>If you're <strong style={{ color:"#e2e8f0" }}>exploring</strong> → thanks for the curiosity.</>}
+          </span>
+        </p>
+      </div>
+    </div>
+  );
+}
 
 /* ─── Contact Modal ──────────────────────────────────────────── */
 function ContactModal({ onClose, lang }) {
@@ -699,7 +771,7 @@ function ContactModal({ onClose, lang }) {
             {/* Fallback */}
             <p style={{ textAlign: "center", marginTop: 16, fontSize: 12, color: "#475569" }}>
               {isDE ? "Lieber direkt schreiben?" : "Prefer direct email?"}{" "}
-              <a href="mailto:zsharikanwar@gmail.com" style={{ color: "#06b6d4", textDecoration: "none" }}>zsharikanwar@gmail.com</a>
+              <a href="mailto:zsharikanwar@gmail.com" target="_blank" rel="noreferrer" style={{ color: "#06b6d4", textDecoration: "none" }}>zsharikanwar@gmail.com</a>
             </p>
             {status === "error" && (
               <p style={{ textAlign: "center", marginTop: 8, fontSize: 12, color: "#f87171" }}>
@@ -718,9 +790,12 @@ function ContactModal({ onClose, lang }) {
 ═══════════════════════════════════════════════════════════════ */
 function App() {
   const [scrolled, setScrolled] = useState(false);
+  const [logoExpanded, setLogoExpanded] = useState(false);
   const [lang, setLang] = useState("de");
   const [showCVModal, setShowCVModal] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
+  const [showLocationCard, setShowLocationCard] = useState(false);
+  const [showEasterEgg, setShowEasterEgg] = useState(false);
   const [heroVisible, setHeroVisible] = useState(false);
   const [heroOpacity, setHeroOpacity] = useState(1);
 
@@ -730,11 +805,26 @@ function App() {
     setTimeout(() => setHeroVisible(true), 100);
     const onScroll = () => {
       setScrolled(window.scrollY > 30);
+      setLogoExpanded(window.scrollY > window.innerHeight * 0.7);
       const fade = Math.max(0, 1 - window.scrollY / (window.innerHeight * 0.6));
       setHeroOpacity(fade);
     };
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setShowCVModal(false);
+        setShowContactModal(false);
+        setShowLocationCard(false);
+      }
+      if (e.key === "z" || e.key === "Z") {
+        setShowEasterEgg(true);
+      }
+    };
     window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, []);
 
   const contactHrefs = [
@@ -790,6 +880,13 @@ function App() {
             .grid-bg { background-image:linear-gradient(rgba(6,182,212,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(6,182,212,0.04) 1px,transparent 1px); background-size:60px 60px; }
             .underline-accent { display:inline-block; position:relative; }
             .underline-accent::after { content:''; position:absolute; bottom:-8px; left:50%; transform:translateX(-50%); width:60px; height:3px; background:linear-gradient(90deg,#06b6d4,#3b82f6); border-radius:2px; }
+            @keyframes slideUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+            @keyframes eggAppear { from { opacity:0; transform:scale(0.82); } to { opacity:1; transform:scale(1); } }
+            @keyframes eggGlow { 0% { opacity:0; transform:scale(0.6); } 40% { opacity:1; transform:scale(1.1); } 100% { opacity:0; transform:scale(1.4); } }
+            @keyframes expandName { from { opacity:0; max-width:0; } to { opacity:1; max-width:200px; } }
+            @keyframes collapseName { from { opacity:1; max-width:200px; } to { opacity:0; max-width:0; } }
+            .logo-name-expand { display:inline-block; overflow:hidden; white-space:nowrap; animation: expandName 0.5s cubic-bezier(0.4,0,0.2,1) forwards; }
+            .logo-name-collapse { display:inline-block; overflow:hidden; white-space:nowrap; animation: collapseName 0.4s cubic-bezier(0.4,0,0.2,1) forwards; }
             .lang-btn { background:transparent; border:1.5px solid rgba(255,255,255,0.12); color:#64748b; padding:5px 13px; border-radius:20px; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s ease; font-family:'Outfit',sans-serif; }
             .lang-btn.active { background:rgba(6,182,212,0.15); border-color:rgba(6,182,212,0.5); color:#06b6d4; }
             .lang-btn:hover:not(.active) { border-color:rgba(255,255,255,0.25); color:#94a3b8; }
@@ -805,8 +902,25 @@ function App() {
           }}>
             <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", height: 72 }}>
               <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-                style={{ fontFamily: "'Outfit',sans-serif", fontWeight: 800, fontSize: 20, color: "#06b6d4", textDecoration: "none", cursor: "pointer" }}>
-                Zahir Hussain
+                style={{ fontFamily: "'Outfit',sans-serif", fontWeight: 800, fontSize: 20, color: "#06b6d4", textDecoration: "none", cursor: "pointer", display: "flex", alignItems: "center", overflow: "hidden" }}>
+                {/* Z badge — visible only at top */}
+                <span style={{
+                  display: "inline-flex", alignItems: "center", justifyContent: "center",
+                  width: logoExpanded ? 0 : 32,
+                  height: 32, borderRadius: 8, flexShrink: 0,
+                  background: "linear-gradient(135deg, #06b6d4, #3b82f6)",
+                  fontSize: 17, fontWeight: 900, color: "white",
+                  opacity: logoExpanded ? 0 : 1,
+                  overflow: "hidden",
+                  transition: "width 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease",
+                }}>Z</span>
+                {/* Full name — fades in when scrolled */}
+                <span style={{
+                  maxWidth: logoExpanded ? 220 : 0,
+                  opacity: logoExpanded ? 1 : 0,
+                  overflow: "hidden", whiteSpace: "nowrap",
+                  transition: "max-width 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease",
+                }}>Zahir Hussain</span>
               </a>
               <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
                 {t.nav.map((item, i) => (
@@ -1058,18 +1172,68 @@ function App() {
                 <p style={{ color:"#64748b", fontSize:15 }}>{t.contactSubtitle}</p>
               </div>
               <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:16, marginBottom:48 }}>
-                {t.contactCards.map((c, i) => (
-                  <a key={c.label} href={contactHrefs[i] || "#"}
-                    target={contactHrefs[i] && !contactHrefs[i].startsWith("mailto") ? "_blank" : undefined}
-                    rel="noreferrer" className="card-hover"
-                    style={{ display:"block", textDecoration:"none", background:"rgba(15,23,42,0.8)", border:"1px solid rgba(51,65,85,0.6)", borderRadius:16, padding:"28px 20px", textAlign:"center", cursor:contactHrefs[i] ? "pointer" : "default" }}>
-                    <div style={{ width:52, height:52, borderRadius:"50%", background:contactIconBgs[i], display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px" }}>
-                      {contactIcons[i]}
-                    </div>
-                    <div style={{ fontWeight:700, fontSize:14, marginBottom:6, color:"#e2e8f0" }}>{c.label}</div>
-                    <div style={{ color:"#475569", fontSize:12, wordBreak:"break-all" }}>{c.value}</div>
-                  </a>
-                ))}
+                {t.contactCards.map((c, i) => {
+                  const isLocation = i === 3;
+                  const isEmail = i === 0;
+                  if (isEmail) {
+                    return (
+                      <button key={c.label} onClick={() => setShowContactModal(true)}
+                        className="card-hover"
+                        style={{ display:"block", width:"100%", textAlign:"center", background:"rgba(15,23,42,0.8)", border:"1px solid rgba(51,65,85,0.6)", borderRadius:16, padding:"28px 20px", cursor:"pointer", fontFamily:"'Outfit',sans-serif" }}>
+                        <div style={{ width:52, height:52, borderRadius:"50%", background:contactIconBgs[i], display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px" }}>{contactIcons[i]}</div>
+                        <div style={{ fontWeight:700, fontSize:14, marginBottom:6, color:"#e2e8f0" }}>{c.label}</div>
+                        <div style={{ color:"#475569", fontSize:12, wordBreak:"break-all" }}>{c.value}</div>
+                      </button>
+                    );
+                  }
+                  if (isLocation) {
+                    return (
+                      <div key={c.label} style={{ position:"relative" }}>
+                        <button onClick={() => setShowLocationCard(v => !v)}
+                          className="card-hover"
+                          style={{ display:"block", width:"100%", textAlign:"center", background:"rgba(15,23,42,0.8)", border:"1px solid rgba(51,65,85,0.6)", borderRadius:16, padding:"28px 20px", cursor:"pointer", fontFamily:"'Outfit',sans-serif" }}>
+                          <div style={{ width:52, height:52, borderRadius:"50%", background:contactIconBgs[i], display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px" }}>{contactIcons[i]}</div>
+                          <div style={{ fontWeight:700, fontSize:14, marginBottom:6, color:"#e2e8f0" }}>{c.label}</div>
+                          <div style={{ color:"#475569", fontSize:12 }}>{c.value}</div>
+                        </button>
+                        {showLocationCard && (
+                          <>
+                            {/* Outside click overlay */}
+                            <div onClick={() => setShowLocationCard(false)} style={{ position:"fixed", inset:0, zIndex:99 }} />
+                            <div style={{
+                              position:"absolute", bottom:"calc(100% + 12px)", left:"50%", transform:"translateX(-50%)",
+                              background:"linear-gradient(135deg,#0d1a2e,#0a1628)",
+                              border:"1px solid rgba(139,92,246,0.35)", borderRadius:14,
+                              padding:"18px 22px", width:240, zIndex:100, textAlign:"left",
+                              boxShadow:"0 20px 50px rgba(0,0,0,0.5)",
+                              animation:"slideUp 0.3s cubic-bezier(0.4,0,0.2,1) forwards",
+                            }}>
+                              <div style={{ position:"absolute", bottom:-7, left:"50%", transform:"translateX(-50%)", width:12, height:12, background:"#0d1a2e", border:"1px solid rgba(139,92,246,0.35)", borderTop:"none", borderLeft:"none", rotate:"45deg" }} />
+                              {[
+                                { icon:"📍", text: t.locationCard[0] },
+                                { icon:"✈️", text: t.locationCard[1] },
+                                { icon:"✅", text: t.locationCard[2] },
+                              ].map((row, ri) => (
+                                <div key={ri} style={{ display:"flex", alignItems:"flex-start", gap:10, marginBottom: ri < 2 ? 12 : 0 }}>
+                                  <span style={{ fontSize:14, flexShrink:0, marginTop:1 }}>{row.icon}</span>
+                                  <span style={{ fontSize:13, color:"#cbd5e1", lineHeight:1.5 }}>{row.text}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    );
+                  }
+                  return (
+                    <a key={c.label} href={contactHrefs[i]} target="_blank" rel="noreferrer" className="card-hover"
+                      style={{ display:"block", textDecoration:"none", background:"rgba(15,23,42,0.8)", border:"1px solid rgba(51,65,85,0.6)", borderRadius:16, padding:"28px 20px", textAlign:"center", cursor:"pointer" }}>
+                      <div style={{ width:52, height:52, borderRadius:"50%", background:contactIconBgs[i], display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px" }}>{contactIcons[i]}</div>
+                      <div style={{ fontWeight:700, fontSize:14, marginBottom:6, color:"#e2e8f0" }}>{c.label}</div>
+                      <div style={{ color:"#475569", fontSize:12, wordBreak:"break-all" }}>{c.value}</div>
+                    </a>
+                  );
+                })}
               </div>
               <div style={{ borderRadius:20, padding:"52px 48px", textAlign:"center", background:"linear-gradient(135deg,rgba(6,182,212,0.08),rgba(59,130,246,0.08))", border:"1px solid rgba(6,182,212,0.2)" }}>
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" strokeWidth="1.5" style={{ display:"inline-block", marginBottom:20 }}>
@@ -1083,8 +1247,18 @@ function App() {
           </section>
 
           {/* ══ FOOTER ═══════════════════════════════════════════════ */}
-          <footer style={{ borderTop:"1px solid rgba(51,65,85,0.4)", padding:"28px 24px", textAlign:"center", color:"#334155", fontSize:13, background:"rgba(8,15,26,0.9)" }}>
-            © {new Date().getFullYear()} Sharik Anwar Zahir Hussain &nbsp;·&nbsp; {t.footer}
+          <footer style={{ borderTop:"1px solid rgba(51,65,85,0.4)", padding:"32px 24px 28px", textAlign:"center", color:"#334155", fontSize:13, background:"rgba(8,15,26,0.9)", position:"relative" }}>
+            <div style={{ marginBottom:12 }}>
+              © {new Date().getFullYear()} Sharik Anwar Zahir Hussain &nbsp;·&nbsp; {t.footer}
+            </div>
+            <div style={{ fontSize:12, color:"#1e293b" }}>
+              {t.easterHint}
+            </div>
+
+            {/* Easter egg modal */}
+            {showEasterEgg && (
+              <EasterEggModal onClose={() => setShowEasterEgg(false)} lang={lang} />
+            )}
           </footer>
 
           {/* ══ CV MODAL ═════════════════════════════════════════════ */}
