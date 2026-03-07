@@ -48,8 +48,10 @@ function LanguageCard({ name, code, level, color }) {
 }
 
 /* ─── Featured project card ──────────────────────────────────── */
-function FeaturedProject({ title, subtitle, description, achievements, achievementsLabel, tags, githubUrl, color, index, panel }) {
+function FeaturedProject({ title, subtitle, description, descriptionMobile, achievements, achievementsMobile, achievementsLabel, tags, githubUrl, color, index, panel, isMobile }) {
   const isEven = index % 2 === 0;
+  const displayDesc = isMobile && descriptionMobile ? descriptionMobile : description;
+  const displayAchievements = isMobile && achievementsMobile ? achievementsMobile : achievements;
   return (
     <div className="relative rounded-2xl overflow-hidden border border-slate-700/50 mb-10"
       style={{ background: "rgba(15,23,42,0.8)" }}>
@@ -57,13 +59,13 @@ function FeaturedProject({ title, subtitle, description, achievements, achieveme
         <div className="flex-1 p-8 md:p-10">
           <h3 className="text-2xl font-bold text-white mb-1">{title}</h3>
           <p className="text-cyan-400 font-semibold text-sm mb-4">{subtitle}</p>
-          <p className="text-gray-400 leading-relaxed mb-6">{description}</p>
+          <p className="text-gray-400 leading-relaxed mb-6">{displayDesc}</p>
           <p className="text-xs font-bold tracking-widest text-cyan-500 mb-3 flex items-center gap-2">
             <span className="inline-block w-4 h-px bg-cyan-500"></span>
             {achievementsLabel}
           </p>
           <ul className="space-y-2 mb-6">
-            {achievements.map((a, i) => (
+            {displayAchievements.map((a, i) => (
               <li key={i} className="flex items-start gap-2 text-gray-300 text-sm">
                 <span className="text-cyan-400 mt-0.5">⚡</span>{a}
               </li>
@@ -85,8 +87,8 @@ function FeaturedProject({ title, subtitle, description, achievements, achieveme
           )}
         </div>
 
-        {/* ── Info panel ── */}
-        <div className="md:w-64 flex flex-col justify-center p-7 relative"
+        {/* ── Info panel — hidden on mobile ── */}
+        <div className="md:w-64 flex flex-col justify-center p-7 relative project-info-panel"
           style={{ background: `linear-gradient(160deg, ${color}10, ${color}04)`, borderLeft: `1px solid ${color}20` }}>
           <div style={{ position:"absolute", inset:0, background:`radial-gradient(ellipse at 50% 0%, ${color}10, transparent 70%)`, pointerEvents:"none" }} />
           <div style={{ position:"relative", zIndex:1 }}>
@@ -189,6 +191,7 @@ const translations = {
     badge: "Available for opportunities",
     heroTitle: "AI Researcher & Intelligent Systems Developer",
     heroDesc: "Applied AI Engineer working at the intersection of machine learning research and intelligent system development. I design data-driven models and end-to-end AI solutions that transform real-world data into reliable decision support systems, bridging academic research with practical engineering applications.",
+    heroDescMobile: "Building data-driven AI systems that bridge machine learning research with real-world applications.",
     exploreBtn: "Explore My Work",
     downloadBtn: "Download CV",
     whoIAm: "WHO I AM",
@@ -196,6 +199,10 @@ const translations = {
     aboutParas: [
       "I enjoy working at the intersection of research and real systems. My curiosity lies in understanding how models behave, how data shapes decisions, and how experiments turn ideas into reliable solutions.",
       "I like building systems where algorithms are not just trained, but carefully evaluated, questioned, and improved. And I also like exploring data, designing experiments, and turning research ideas into working solutions.",
+    ],
+    aboutParasMobile: [
+      "I work at the intersection of AI research and real systems. My focus is understanding how models behave, how data shapes decisions, and how experiments translate ideas into reliable solutions.",
+      "I build systems where algorithms are not only trained, but carefully evaluated, improved, and applied to real-world problems.",
     ],
     capCards: [
       { icon: "🧠", title: "ML & AI", desc: "Supervised learning, neural networks, predictive modeling, model evaluation" },
@@ -205,6 +212,7 @@ const translations = {
     ],
     drivesTitle: "What Drives Me",
     drivesText: "I focus on applying machine learning to real operational problems. My goal is to build systems where models are not only trained and evaluated, but integrated into software environments where they support practical decision making.",
+    drivesTextMobile: "Applying machine learning to real operational problems and building systems where models move beyond experiments into practical decision-support tools.",
     whereWorked: "WHERE I'VE WORKED",
     expTitle: "Experience",
     eduTitle: "Education",
@@ -218,6 +226,7 @@ const translations = {
           "Designed and implemented four AI tool interfaces for calendar management (create, check, update, delete events) by defining tool schemas and connecting backend APIs using Node.js and REST.",
           "Supported system deployment in a Docker-based environment and implemented an HTTPS proxy solution to enable secure communication between AI tools and backend services.",
         ],
+        pointsMobile: "Improved a conversational AI assistant by building tool integrations for calendar automation and connecting backend APIs using Node.js. Supported deployment in a Docker environment with secure API communication.",
       },
       {
         role: "CTO – AI & Intelligent Systems",
@@ -228,6 +237,7 @@ const translations = {
           "Developed an AI-powered chatbot to assist users with platform interactions and automated responses.",
           "Designed and evaluated AI system components with focus on inference reliability, backend integration, and scalable application workflows.",
         ],
+        pointsMobile: "Contributed to backend architecture and developed an AI chatbot to support platform interactions. Focused on reliable AI inference, backend integration, and scalable application workflows.",
       },
       {
         role: "Associate Professional Software Engineer",
@@ -238,6 +248,7 @@ const translations = {
           "Developed automated data workflows and quantitative models that reduced operational downtime by approximately 25%.",
           "Performed longitudinal data analysis to support operational performance evaluation.",
         ],
+        pointsMobile: "Analyzed large operational datasets and built automated data workflows using Python. Developed quantitative models that improved operational efficiency and reduced downtime.",
       },
     ],
     education: [
@@ -254,12 +265,17 @@ const translations = {
         title: "AI-Based Heat Demand Forecasting",
         subtitle: "Master's Thesis — Applied Machine Learning",
         description: "Developed machine learning models to forecast heat demand in a district heating network using real operational time-series data. The study evaluates multiple model families across several forecasting horizons and compares curated feature sets with larger engineered feature sets to analyze accuracy, training complexity, and operational feasibility.",
+        descriptionMobile: "Built machine learning models to forecast district heating demand using real operational time-series data. Compared multiple model families and designed reproducible pipelines for systematic forecasting evaluation.",
         achievements: [
           "Built an end-to-end machine learning pipeline using real operational district heating data",
           "Compared Linear Regression, SVR, Feed-Forward Neural Networks, and LSTM models",
           "Evaluated forecasting horizons from 1 to 72 hours using 38,784 hourly observations",
           "Designed reproducible experimentation pipelines with systematic model comparison",
           "Explored reinforcement learning approaches for operational optimization",
+        ],
+        achievementsMobile: [
+          "Compared Linear Regression, SVR, FFNN, and LSTM across multiple forecasting horizons",
+          "Designed reproducible pipelines using 38,784 hourly observations from real district heating data",
         ],
         tags: ["Python", "Scikit-learn", "TensorFlow", "LSTM", "Time Series", "Pandas"],
         color: "#06b6d4",
@@ -276,12 +292,17 @@ const translations = {
         title: "3D Object Detection",
         subtitle: "Computer Vision — Industrial Inspection",
         description: "Developed a deep learning system for identifying maturity levels of manufacturing components using images captured by a 2D camera. The system combines real production images with synthetic 3D-CAD data and uses a VGG-based convolutional neural network to perform classification under varying real-world conditions.",
+        descriptionMobile: "Developed a computer vision system to classify manufacturing component maturity using a CNN based on VGG architecture. Combined real production images with synthetic 3D-CAD data and applied transfer learning for robust recognition.",
         achievements: [
           "Implemented a CNN-based recognition system using a VGG ImageNet architecture",
           "Combined real industrial images with synthetic 3D-CAD data for training",
           "Applied data augmentation to improve robustness against lighting and view variations",
           "Used transfer learning to leverage pre-trained feature representations",
           "Designed the system with focus on computational efficiency for real-time inspection",
+        ],
+        achievementsMobile: [
+          "Built a VGG CNN trained on real industrial images combined with synthetic 3D-CAD data",
+          "Applied transfer learning and data augmentation for robust real-world classification",
         ],
         tags: ["Computer Vision", "CNN", "VGG", "Transfer Learning", "Python", "PyTorch"],
         color: "#8b5cf6",
@@ -298,11 +319,16 @@ const translations = {
         title: "Reinforcement Learning Blackjack",
         subtitle: "Sequential Decision Making",
         description: "Implemented reinforcement learning algorithms to study decision-making strategies in simulated blackjack environments. The work evaluates how reinforcement learning policies compare with traditional rule-based strategies under different game rule variations.",
+        descriptionMobile: "Studied decision-making strategies using reinforcement learning in a simulated blackjack environment. Implemented a Q-learning agent and evaluated policy performance across different game rule variations.",
         achievements: [
           "Implemented a Q-learning agent to improve the standard blackjack strategy",
           "Integrated rule variations including high-low counting and Zen counting systems",
           "Evaluated policy performance using simulation-based experiments",
           "Compared reinforcement learning strategies against traditional blackjack decision rules",
+        ],
+        achievementsMobile: [
+          "Implemented a Q-learning agent and evaluated policy performance across rule variations",
+          "Compared RL strategies against traditional rule-based blackjack decision methods",
         ],
         tags: ["Python", "Reinforcement Learning", "Q-Learning", "Simulation", "Policy Optimization"],
         color: "#10b981",
@@ -324,6 +350,7 @@ const translations = {
         journal: "IEEE",
         year: "Apr 2022",
         description: "Developed a Faster R-CNN based computer vision system to detect sugarcane leaf diseases from image data. The model was trained using a dataset of approximately 1,500 images containing healthy and diseased leaves. An Android application was implemented as the user interface to capture leaf images and perform disease detection through the trained model.",
+        descriptionMobile: "Developed a computer vision system using Faster R-CNN to detect sugarcane leaf diseases from image data. The model was trained on healthy and diseased leaves and integrated into an Android application for real-time disease detection.",
         ieeeUrl: "https://ieeexplore.ieee.org/document/9776685",
         githubUrl: "https://github.com/anwar-prog/Automated-Sugarcane-Disease-Recognition",
       },
@@ -361,7 +388,7 @@ const translations = {
       "Authorized to work in Germany",
     ],
     ctaTitle: "Ready to Build Something Impactful?",
-    ctaText: "I'm actively seeking opportunities in AI engineering and research where I can apply ML expertise to solve real-world problems. Whether it's a full-time role or a research collaboration — let's talk.",
+    ctaText: "I'm actively seeking opportunities in AI engineering and research where I can apply ML expertise to solve real-world problems. Whether it's a full-time role or a research collaboration, let's talk ;)",
     ctaBtn: "Get In Touch",
     footer: "Built with React & TailwindCSS",
     easterHint: "You made it to the end… try pressing the last letter of the alphabet on your keyboard.",
@@ -373,6 +400,7 @@ const translations = {
     badge: "Offen für Stellenangebote",
     heroTitle: "KI-Forscher & Entwickler Intelligenter Systeme",
     heroDesc: "Angewandter KI-Ingenieur an der Schnittstelle von ML-Forschung und intelligenter Systementwicklung. Ich entwerfe datengetriebene Modelle und End-to-End-KI-Lösungen, die reale Daten in verlässliche Entscheidungsunterstützungssysteme übersetzen — Brücke zwischen akademischer Forschung und praktischer Ingenieuranwendung.",
+    heroDescMobile: "Aufbau datengetriebener KI-Systeme, die ML-Forschung mit realen Anwendungen verbinden.",
     exploreBtn: "Meine Arbeit entdecken",
     downloadBtn: "Lebenslauf herunterladen",
     whoIAm: "WER ICH BIN",
@@ -380,6 +408,10 @@ const translations = {
     aboutParas: [
       "Ich arbeite gerne an der Schnittstelle zwischen Forschung und realen Systemen. Meine Neugier gilt dem Verständnis, wie Modelle funktionieren, wie Daten Entscheidungen formen und wie Experimente Ideen in zuverlässige Lösungen verwandeln.",
       "Ich baue Systeme, in denen Algorithmen nicht nur trainiert, sondern sorgfältig evaluiert, hinterfragt und verbessert werden. Außerdem erkunde ich gerne Daten, gestalte Experimente und überführe Forschungsideen in funktionierende Lösungen.",
+    ],
+    aboutParasMobile: [
+      "Ich arbeite an der Schnittstelle von KI-Forschung und realen Systemen. Mein Fokus liegt darauf, wie Modelle sich verhalten, wie Daten Entscheidungen prägen und wie Experimente Ideen in verlässliche Lösungen übersetzen.",
+      "Ich baue Systeme, in denen Algorithmen nicht nur trainiert, sondern sorgfältig evaluiert, verbessert und auf reale Probleme angewandt werden.",
     ],
     capCards: [
       { icon: "🧠", title: "ML & KI", desc: "Überwachtes Lernen, neuronale Netze, prädiktive Modellierung, Modellbewertung" },
@@ -389,6 +421,7 @@ const translations = {
     ],
     drivesTitle: "Was mich antreibt",
     drivesText: "Ich konzentriere mich auf die Anwendung von maschinellem Lernen auf reale Betriebsprobleme. Mein Ziel ist es, Systeme zu entwickeln, in denen Modelle nicht nur trainiert und bewertet, sondern in Softwareumgebungen integriert werden, wo sie praktische Entscheidungen unterstützen.",
+    drivesTextMobile: "ML auf reale Betriebsprobleme anwenden und Systeme bauen, in denen Modelle über Experimente hinaus zu praktischen Entscheidungswerkzeugen werden.",
     whereWorked: "WO ICH GEARBEITET HABE",
     expTitle: "Erfahrung",
     eduTitle: "Ausbildung",
@@ -402,6 +435,7 @@ const translations = {
           "Vier KI-Tool-Schnittstellen für die Kalenderverwaltung (Erstellen, Prüfen, Aktualisieren, Löschen von Terminen) entwickelt – durch Definition von Tool-Schemas und Anbindung von Backend-APIs mit Node.js und REST.",
           "System-Deployment in einer Docker-Umgebung unterstützt und eine HTTPS-Proxy-Lösung implementiert, um sichere Kommunikation zwischen KI-Tools und Backend-Diensten zu gewährleisten.",
         ],
+        pointsMobile: "Einen KI-Assistenten durch Tool-Integrationen für Kalenderautomatisierung verbessert und Backend-APIs mit Node.js angebunden. Deployment in Docker-Umgebung mit sicherer API-Kommunikation unterstützt.",
       },
       {
         role: "CTO – KI & Intelligente Systeme",
@@ -412,6 +446,7 @@ const translations = {
           "Einen KI-gestützten Chatbot entwickelt, der Nutzern bei Plattforminteraktionen und automatisierten Antworten hilft.",
           "KI-Systemkomponenten mit Fokus auf Inferenzzuverlässigkeit, Backend-Integration und skalierbare Anwendungs-Workflows konzipiert und bewertet.",
         ],
+        pointsMobile: "Zur Backend-Architektur beigetragen und einen KI-Chatbot für Plattforminteraktionen entwickelt. Fokus auf zuverlässige KI-Inferenz, Backend-Integration und skalierbare Workflows.",
       },
       {
         role: "Softwareentwickler (Associate Professional)",
@@ -422,6 +457,7 @@ const translations = {
           "Automatisierte Daten-Workflows und quantitative Modelle entwickelt, die die Betriebsausfallzeit um ca. 25 % reduzierten.",
           "Längsschnittdatenanalyse zur Unterstützung der operativen Leistungsbewertung durchgeführt.",
         ],
+        pointsMobile: "Große Betriebsdatensätze analysiert und automatisierte Daten-Workflows mit Python entwickelt. Quantitative Modelle gebaut, die Effizienz verbessert und Ausfallzeiten reduziert haben.",
       },
     ],
     education: [
@@ -438,6 +474,7 @@ const translations = {
         title: "KI-basierte Wärmebedarfsprognose",
         subtitle: "Masterarbeit — Angewandtes Maschinelles Lernen",
         description: "ML-Modelle zur Prognose des Wärmebedarfs in einem Fernwärmenetz mit realen Betriebszeitreihendaten entwickelt. Die Studie bewertet mehrere Modellfamilien über verschiedene Prognosehorizonte und vergleicht kuratierte mit größeren Feature-Sets.",
+        descriptionMobile: "ML-Modelle zur Prognose des Fernwärmebedarfs mit realen Zeitreihendaten entwickelt. Mehrere Modellfamilien verglichen und reproduzierbare Pipelines für systematische Prognosebewertung entworfen.",
         achievements: [
           "End-to-End-ML-Pipeline mit realen Fernwärme-Betriebsdaten aufgebaut",
           "Lineare Regression, SVR, Feed-Forward Neuronale Netze und LSTM verglichen",
@@ -460,12 +497,17 @@ const translations = {
         title: "3D-Objekterkennung",
         subtitle: "Computer Vision — Industrielle Inspektion",
         description: "Deep-Learning-System zur Identifizierung von Reifegraden von Fertigungskomponenten mit einer 2D-Kamera entwickelt. Das System kombiniert echte Produktionsbilder mit synthetischen 3D-CAD-Daten und nutzt ein VGG-basiertes CNN.",
+        descriptionMobile: "Computer-Vision-System zur Klassifizierung von Fertigungskomponenten mit einem VGG-basierten CNN entwickelt. Echte Produktionsbilder mit synthetischen 3D-CAD-Daten kombiniert und Transfer Learning für robuste Erkennung eingesetzt.",
         achievements: [
           "CNN-basiertes Erkennungssystem mit VGG ImageNet-Architektur implementiert",
           "Echte Industriebilder mit synthetischen 3D-CAD-Daten kombiniert",
           "Datenerweiterung für Robustheit gegen Beleuchtungs- und Ansichtsvariationen",
           "Transfer Learning für vortrainierte Feature-Repräsentationen genutzt",
           "System mit Fokus auf Recheneffizienz für Echtzeit-Inspektion entwickelt",
+        ],
+        achievementsMobile: [
+          "VGG CNN mit echten Industriebildern und synthetischen 3D-CAD-Daten trainiert",
+          "Transfer Learning und Datenerweiterung für robuste Klassifikation unter realen Bedingungen eingesetzt",
         ],
         tags: ["Computer Vision", "CNN", "VGG", "Transfer Learning", "Python", "PyTorch"],
         color: "#8b5cf6",
@@ -482,11 +524,16 @@ const translations = {
         title: "Bestärkendes Lernen: Blackjack",
         subtitle: "Sequentielle Entscheidungsfindung",
         description: "RL-Algorithmen zur Untersuchung von Entscheidungsstrategien in simulierten Blackjack-Umgebungen implementiert. Die Arbeit bewertet, wie RL-Strategien im Vergleich zu regelbasierten Ansätzen abschneiden.",
+        descriptionMobile: "Entscheidungsstrategien mit Bestärkendem Lernen in einer Blackjack-Simulation untersucht. Q-Learning-Agent implementiert und Strategieleistung bei verschiedenen Spielregeln bewertet.",
         achievements: [
           "Q-Learning-Agent zur Verbesserung der Standard-Blackjack-Strategie implementiert",
           "Regelvariationen inkl. High-Low- und Zen-Zählsysteme integriert",
           "Strategieleistung durch simulationsbasierte Experimente bewertet",
           "RL-Strategien gegen traditionelle Blackjack-Entscheidungsregeln verglichen",
+        ],
+        achievementsMobile: [
+          "Q-Learning-Agent implementiert und Strategieleistung bei verschiedenen Regelvariationen bewertet",
+          "RL-Strategien gegen regelbasierte Blackjack-Entscheidungsansätze verglichen",
         ],
         tags: ["Python", "Bestärkendes Lernen", "Q-Learning", "Simulation", "Policy-Optimierung"],
         color: "#10b981",
@@ -508,6 +555,7 @@ const translations = {
         journal: "IEEE",
         year: "Apr. 2022",
         description: "Faster-R-CNN-basiertes Computer-Vision-System zur Erkennung von Zuckerrohrblattkrankheiten entwickelt. Das Modell wurde mit ca. 1.500 Bildern trainiert. Eine Android-Anwendung wurde als Benutzeroberfläche implementiert.",
+        descriptionMobile: "Computer-Vision-System mit Faster R-CNN zur Erkennung von Zuckerrohrblattkrankheiten entwickelt. Modell auf gesunden und erkrankten Blättern trainiert und in eine Android-App für Echtzeit-Erkennung integriert.",
         ieeeUrl: "https://ieeexplore.ieee.org/document/9776685",
         githubUrl: "https://github.com/anwar-prog/Automated-Sugarcane-Disease-Recognition",
       },
@@ -545,7 +593,7 @@ const translations = {
       "Arbeitserlaubnis in Deutschland",
     ],
     ctaTitle: "Bereit, etwas Wirkungsvolles zu bauen?",
-    ctaText: "Ich suche aktiv nach Möglichkeiten im KI-Engineering und in der Forschung. Ob Vollzeitstelle oder Forschungskooperation — ich freue mich auf das Gespräch.",
+    ctaText: "Ich suche aktiv nach Möglichkeiten im KI-Engineering und in der Forschung. Ob Vollzeitstelle oder Forschungskooperation, ich freue mich auf das Gespräch ;)",
     ctaBtn: "Kontakt aufnehmen",
     footer: "Erstellt mit React & TailwindCSS",
     easterHint: "Du hast es bis zum Ende geschafft… drück den letzten Buchstaben des Alphabets auf deiner Tastatur.",
@@ -789,6 +837,7 @@ function ContactModal({ onClose, lang }) {
 function App() {
   const [scrolled, setScrolled] = useState(false);
   const [logoExpanded, setLogoExpanded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [lang, setLang] = useState("de");
   const [showCVModal, setShowCVModal] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
@@ -799,7 +848,17 @@ function App() {
 
   const t = translations[lang];
 
+  const [showMobileBanner, setShowMobileBanner] = useState(false);
+
   useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    // Show mobile banner once
+    if (window.innerWidth < 768) {
+      setTimeout(() => setShowMobileBanner(true), 1200);
+      setTimeout(() => setShowMobileBanner(false), 16200);
+    }
     setTimeout(() => setHeroVisible(true), 100);
     const onScroll = () => {
       setScrolled(window.scrollY > 30);
@@ -822,6 +881,7 @@ function App() {
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("resize", checkMobile);
     };
   }, []);
 
@@ -888,7 +948,51 @@ function App() {
             .lang-btn { background:transparent; border:1.5px solid rgba(255,255,255,0.12); color:#64748b; padding:5px 13px; border-radius:20px; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s ease; font-family:'Outfit',sans-serif; }
             .lang-btn.active { background:rgba(6,182,212,0.15); border-color:rgba(6,182,212,0.5); color:#06b6d4; }
             .lang-btn:hover:not(.active) { border-color:rgba(255,255,255,0.25); color:#94a3b8; }
+            @media (max-width: 767px) {
+              .desktop-nav { display: none !important; }
+              .mobile-lang { display: flex !important; }
+              .about-grid { grid-template-columns: 1fr !important; }
+              .about-portrait { display: none !important; }
+              .projects-grid { grid-template-columns: 1fr !important; }
+              .project-info-panel { display: none !important; }
+              .contact-cards-grid { grid-template-columns: 1fr 1fr !important; }
+              .skills-grid { grid-template-columns: 1fr !important; }
+              .footer-easter { display: none !important; }
+              .hero-btns { flex-direction: column !important; align-items: center !important; gap: 12px !important; }
+              .cta-box { padding: 32px 24px !important; }
+              .section-pad { padding: 72px 20px !important; }
+              .pub-grid { grid-template-columns: 1fr !important; }
+              .pub-title-row { flex-direction: column !important; gap: 4px !important; }
+              .pub-title-row h3 { max-width: 100% !important; font-size: 14px !important; }
+              .location-popup { position: fixed !important; bottom: 24px !important; left: 16px !important; right: 16px !important; top: auto !important; transform: none !important; width: auto !important; }
+            }
           `}</style>
+
+          {/* Mobile banner */}
+          {showMobileBanner && (
+            <div style={{
+              position:"fixed", bottom:24, left:16, right:16, zIndex:2000,
+              background:"linear-gradient(135deg,#0d1a2e,#0a1628)",
+              border:"1px solid rgba(6,182,212,0.25)", borderRadius:16,
+              padding:"16px 20px", boxShadow:"0 20px 40px rgba(0,0,0,0.5)",
+              animation:"slideUp 0.4s cubic-bezier(0.4,0,0.2,1) forwards",
+              display:"flex", alignItems:"flex-start", gap:12,
+            }}>
+              <span style={{ fontSize:20, flexShrink:0 }}>📱</span>
+              <div>
+                <p style={{ fontFamily:"'Outfit',sans-serif", fontWeight:700, fontSize:13, color:"#e2e8f0", marginBottom:4 }}>
+                  {lang === "de" ? "Interessant… das Portfolio auf dem Handy?" : "Interesting… exploring the portfolio on mobile?"}
+                </p>
+                <p style={{ fontSize:12, color:"#64748b", lineHeight:1.6 }}>
+                  {lang === "de"
+                    ? "Diese Version hält es minimal. Die Desktop-Version hat etwas mehr Detail – und ein kleines Easter Egg ;)"
+                    : "This version keeps things minimal. The desktop version has a bit more detail - plus a tiny easter egg ;)"}
+                </p>
+              </div>
+              <button onClick={() => setShowMobileBanner(false)}
+                style={{ background:"none", border:"none", color:"#475569", cursor:"pointer", fontSize:16, flexShrink:0, padding:0, marginLeft:"auto" }}>×</button>
+            </div>
+          )}
 
           {/* ══ NAVBAR ══════════════════════════════════════════════ */}
           <nav style={{
@@ -899,6 +1003,8 @@ function App() {
             borderBottom: scrolled ? "1px solid rgba(6,182,212,0.1)" : "1px solid transparent",
           }}>
             <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", height: 72 }}>
+              {/* Left: Logo */}
+              <div style={{ display:"flex", alignItems:"center", gap:12 }}>
               <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
                 style={{ fontFamily: "'Outfit',sans-serif", fontWeight: 800, fontSize: 20, color: "#06b6d4", textDecoration: "none", cursor: "pointer", display: "flex", alignItems: "center", overflow: "hidden" }}>
                 {/* Z badge — visible only at top */}
@@ -920,7 +1026,8 @@ function App() {
                   transition: "max-width 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease",
                 }}>Zahir Hussain</span>
               </a>
-              <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
+              </div>{/* end left group */}
+              <div className="desktop-nav" style={{ display: "flex", gap: 28, alignItems: "center" }}>
                 {t.nav.map((item, i) => (
                   <a key={item} href={`#${t.navIds[i]}`}
                     style={{ color: "#94a3b8", fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}
@@ -952,11 +1059,16 @@ function App() {
                   <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                 </button>
               </div>
+              {/* Mobile lang switcher — right side, only on mobile */}
+              <div className="mobile-lang" style={{ display:"none", gap:4, alignItems:"center", background:"rgba(255,255,255,0.04)", borderRadius:20, padding:"3px 5px", border:"1px solid rgba(255,255,255,0.07)" }}>
+                <button className={`lang-btn${lang === "de" ? " active" : ""}`} onClick={() => setLang("de")}>DE</button>
+                <button className={`lang-btn${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</button>
+              </div>
             </div>
           </nav>
 
           {/* ══ HERO ═════════════════════════════════════════════════ */}
-          <section className="grid-bg" style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "120px 24px 80px", position: "relative", overflow: "hidden" }}>
+          <section className="grid-bg" style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "120px 24px 40px", position: "relative", overflow: "hidden" }}>
             <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 60% 50% at 50% 40%, rgba(6,182,212,0.12) 0%, transparent 70%)" }} />
             <div style={{ position:"absolute", width:300, height:300, borderRadius:"50%", top:"10%", left:"5%", background:"radial-gradient(circle,rgba(6,182,212,0.06),transparent 70%)", animation:"float 6s ease-in-out infinite", pointerEvents:"none" }} />
             <div style={{ position:"absolute", width:200, height:200, borderRadius:"50%", bottom:"15%", right:"8%", background:"radial-gradient(circle,rgba(59,130,246,0.06),transparent 70%)", animation:"float 8s ease-in-out infinite 2s", pointerEvents:"none" }} />
@@ -983,10 +1095,10 @@ function App() {
 
               <p className={heroVisible ? "fade-up delay-3" : ""}
                 style={{ fontSize:15.5, color:"#64748b", lineHeight:1.85, maxWidth:620, margin:"0 auto 44px" }}>
-                {t.heroDesc}
+                {isMobile ? t.heroDescMobile : t.heroDesc}
               </p>
 
-              <div className={heroVisible ? "fade-up delay-4" : ""}
+              <div className={`hero-btns${heroVisible ? " fade-up delay-4" : ""}`}
                 style={{ display:"flex", gap:16, justifyContent:"center", flexWrap:"wrap" }}>
                 <a href="#projects" className="btn-primary">{t.exploreBtn}</a>
                 <button className="btn-secondary" onClick={() => setShowCVModal(true)}>
@@ -1000,17 +1112,17 @@ function App() {
           </section>
 
           {/* ══ ABOUT ════════════════════════════════════════════════ */}
-          <section id="about" style={{ padding:"120px 24px", maxWidth:1200, margin:"0 auto" }}>
-            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:0, alignItems:"start" }}>
+          <section id="about" className="section-pad" style={{ padding:"80px 24px", maxWidth:1200, margin:"0 auto" }}>
+            <div className="about-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:0, alignItems:"start" }}>
               <div style={{ paddingRight:40 }}>
                 <p style={{ color:"#06b6d4", fontSize:13, fontWeight:600, letterSpacing:"0.1em", marginBottom:16 }}>{t.whoIAm}</p>
                 <h2 className="section-title underline-accent" style={{ fontSize:"clamp(28px,4vw,44px)", marginBottom:32, lineHeight:1.2 }}>{t.aboutTitle}</h2>
-                {t.aboutParas.map((para, i) => (
+                {(isMobile ? t.aboutParasMobile : t.aboutParas).map((para, i) => (
                   <p key={i} style={{ color:"#94a3b8", lineHeight:1.9, marginBottom:18, fontSize:15 }}>{para}</p>
                 ))}
               </div>
               {/* Portrait column */}
-              <div style={{ position:"relative", display:"flex", justifyContent:"flex-end", alignItems:"flex-start", marginTop:"-8px" }}>
+              <div className="about-portrait" style={{ position:"relative", display:"flex", justifyContent:"flex-end", alignItems:"flex-start", marginTop:"-8px" }}>
                 {/* Bottom fade */}
                 <div style={{ position:"absolute", bottom:0, left:0, right:0, height:120, background:"linear-gradient(to top, #080f1a 0%, transparent 100%)", zIndex:2, pointerEvents:"none" }} />
                 <img src="/dp.png" alt="Zahir Hussain"
@@ -1025,12 +1137,12 @@ function App() {
             </div>
             <div style={{ marginTop:60, borderRadius:20, padding:"40px 48px", textAlign:"center", background:"linear-gradient(135deg,rgba(6,182,212,0.06),rgba(59,130,246,0.06))", border:"1px solid rgba(6,182,212,0.15)" }}>
               <h3 style={{ fontFamily:"'Outfit',sans-serif", fontWeight:800, fontSize:20, marginBottom:16 }}>{t.drivesTitle}</h3>
-              <p style={{ color:"#94a3b8", maxWidth:640, margin:"0 auto", lineHeight:1.8, fontSize:15 }}>{t.drivesText}</p>
+              <p style={{ color:"#94a3b8", maxWidth:640, margin:"0 auto", lineHeight:1.8, fontSize:15 }}>{isMobile ? t.drivesTextMobile : t.drivesText}</p>
             </div>
           </section>
 
           {/* ══ EXPERIENCE ═══════════════════════════════════════════ */}
-          <section id="experience" style={{ padding:"120px 24px", background:"rgba(15,23,42,0.5)" }}>
+          <section id="experience" className="section-pad" style={{ padding:"120px 24px", background:"rgba(15,23,42,0.5)" }}>
             <div style={{ maxWidth:900, margin:"0 auto" }}>
               <div style={{ textAlign:"center", marginBottom:72 }}>
                 <p style={{ color:"#06b6d4", fontSize:13, fontWeight:600, letterSpacing:"0.1em", marginBottom:16 }}>{t.whereWorked}</p>
@@ -1047,18 +1159,21 @@ function App() {
                     </div>
                     <p style={{ color:"#06b6d4", fontSize:13, fontWeight:600, marginBottom:16 }}>{exp.company}</p>
                     <ul style={{ margin:0, padding:0, listStyle:"none" }}>
-                      {exp.points.map((pt, j) => (
-                        <li key={j} style={{ display:"flex", gap:10, marginBottom:8, color:"#64748b", fontSize:14, lineHeight:1.6 }}>
-                          <span style={{ color:"#06b6d4", marginTop:2, flexShrink:0 }}>▸</span>{pt}
-                        </li>
-                      ))}
+                      {isMobile && exp.pointsMobile
+                        ? <li style={{ color:"#64748b", fontSize:14, lineHeight:1.7 }}>{exp.pointsMobile}</li>
+                        : exp.points.map((pt, j) => (
+                          <li key={j} style={{ display:"flex", gap:10, marginBottom:8, color:"#64748b", fontSize:14, lineHeight:1.6 }}>
+                            <span style={{ color:"#06b6d4", marginTop:2, flexShrink:0 }}>▸</span>{pt}
+                          </li>
+                        ))
+                      }
                     </ul>
                   </div>
                 ))}
               </div>
               <div style={{ marginTop:60 }}>
                 <h3 className="section-title" style={{ fontSize:22, marginBottom:24, color:"#e2e8f0" }}>{t.eduTitle}</h3>
-                <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:20 }}>
+                <div className="projects-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:20 }}>
                   {t.education.map((ed) => (
                     <div key={ed.degree} style={{ background:"rgba(8,15,26,0.9)", border:"1px solid rgba(51,65,85,0.6)", borderRadius:16, padding:"24px 28px" }}>
                       <div style={{ color:"#06b6d4", fontSize:11, fontWeight:700, letterSpacing:"0.08em", marginBottom:10 }}>🎓 {ed.level}</div>
@@ -1073,7 +1188,7 @@ function App() {
           </section>
 
           {/* ══ PROJECTS ═════════════════════════════════════════════ */}
-          <section id="projects" style={{ padding:"120px 24px" }}>
+          <section id="projects" className="section-pad" style={{ padding:"120px 24px" }}>
             <div style={{ maxWidth:1100, margin:"0 auto" }}>
               <div style={{ textAlign:"center", marginBottom:72 }}>
                 <p style={{ color:"#06b6d4", fontSize:13, fontWeight:600, letterSpacing:"0.1em", marginBottom:16 }}>{t.whatBuilt}</p>
@@ -1081,7 +1196,7 @@ function App() {
                 <p style={{ color:"#64748b", fontSize:15 }}>{t.projectsSubtitle}</p>
               </div>
               {t.projects.map((project, i) => (
-                <FeaturedProject key={i} {...project} achievementsLabel={t.achievementsLabel} index={i} />
+                <FeaturedProject key={i} {...project} achievementsLabel={t.achievementsLabel} index={i} isMobile={isMobile} />
               ))}
               <div style={{ textAlign:"center", marginTop:16 }}>
                 <a href="https://github.com/anwar-prog" target="_blank" rel="noreferrer" className="btn-primary">{t.viewAllGithub}</a>
@@ -1100,14 +1215,14 @@ function App() {
               <h2 className="section-title" style={{ fontSize:"clamp(22px,3vw,34px)", marginBottom:32 }}>{t.pubTitle}</h2>
               {t.publications.map((pub, i) => (
                 <div key={i} className="card-hover" style={{ background:"rgba(8,15,26,0.9)", border:"1px solid rgba(51,65,85,0.6)", borderRadius:16, padding:"28px 32px" }}>
-                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", flexWrap:"wrap", gap:12, marginBottom:10 }}>
+                  <div className="pub-title-row" style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", flexWrap:"wrap", gap:12, marginBottom:10 }}>
                     <h3 style={{ fontWeight:700, fontSize:16, color:"#e2e8f0", lineHeight:1.4, maxWidth:"70%" }}>{pub.title}</h3>
                     <span style={{ color:"#475569", fontSize:13, fontWeight:500, whiteSpace:"nowrap" }}>{pub.year}</span>
                   </div>
                   <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:14 }}>
                     <span style={{ background:"rgba(239,68,68,0.15)", border:"1px solid rgba(239,68,68,0.3)", color:"#f87171", fontSize:11, fontWeight:700, padding:"3px 10px", borderRadius:20 }}>{pub.journal}</span>
                   </div>
-                  <p style={{ color:"#64748b", fontSize:14, lineHeight:1.7, marginBottom:20 }}>{pub.description}</p>
+                  <p style={{ color:"#64748b", fontSize:14, lineHeight:1.7, marginBottom:20 }}>{isMobile && pub.descriptionMobile ? pub.descriptionMobile : pub.description}</p>
                   <div style={{ display:"flex", gap:12, flexWrap:"wrap" }}>
                     <a href={pub.ieeeUrl} target="_blank" rel="noreferrer"
                       style={{ display:"inline-flex", alignItems:"center", gap:7, padding:"8px 16px", background:"rgba(239,68,68,0.1)", border:"1px solid rgba(239,68,68,0.25)", borderRadius:50, fontSize:12, fontWeight:600, color:"#f87171", textDecoration:"none", transition:"all 0.2s" }}
@@ -1130,7 +1245,7 @@ function App() {
           </section>
 
           {/* ══ SKILLS ═══════════════════════════════════════════════ */}
-          <section id="skills" style={{ padding:"120px 24px" }}>
+          <section id="skills" className="section-pad" style={{ padding:"120px 24px" }}>
             <div style={{ maxWidth:1000, margin:"0 auto" }}>
               <div style={{ textAlign:"center", marginBottom:64 }}>
                 <p style={{ color:"#06b6d4", fontSize:13, fontWeight:600, letterSpacing:"0.1em", marginBottom:16 }}>{t.whatIKnow}</p>
@@ -1166,14 +1281,14 @@ function App() {
           </section>
 
           {/* ══ CONTACT ══════════════════════════════════════════════ */}
-          <section id="contact" style={{ padding:"120px 24px", background:"rgba(15,23,42,0.5)" }}>
+          <section id="contact" className="section-pad" style={{ padding:"120px 24px", background:"rgba(15,23,42,0.5)" }}>
             <div style={{ maxWidth:900, margin:"0 auto" }}>
               <div style={{ textAlign:"center", marginBottom:64 }}>
                 <p style={{ color:"#06b6d4", fontSize:13, fontWeight:600, letterSpacing:"0.1em", marginBottom:16 }}>{t.getInTouch}</p>
                 <h2 className="section-title underline-accent" style={{ fontSize:"clamp(28px,4vw,44px)", marginBottom:16 }}>{t.contactTitle}</h2>
                 <p style={{ color:"#64748b", fontSize:15 }}>{t.contactSubtitle}</p>
               </div>
-              <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:16, marginBottom:48 }}>
+              <div className="contact-cards-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:16, marginBottom:48 }}>
                 {t.contactCards.map((c, i) => {
                   const isLocation = i === 3;
                   const isEmail = i === 0;
@@ -1202,7 +1317,7 @@ function App() {
                           <>
                             {/* Outside click overlay */}
                             <div onClick={() => setShowLocationCard(false)} style={{ position:"fixed", inset:0, zIndex:99 }} />
-                            <div style={{
+                            <div className="location-popup" style={{
                               position:"absolute", bottom:"calc(100% + 12px)", left:"50%", transform:"translateX(-50%)",
                               background:"linear-gradient(135deg,#0d1a2e,#0a1628)",
                               border:"1px solid rgba(139,92,246,0.35)", borderRadius:14,
@@ -1253,7 +1368,7 @@ function App() {
             <div style={{ marginBottom:12 }}>
               © {new Date().getFullYear()} Sharik Anwar Zahir Hussain &nbsp;·&nbsp; {t.footer}
             </div>
-            <div style={{ fontSize:12, color:"#1e293b" }}>
+            <div className="footer-easter" style={{ fontSize:12, color:"#1e293b" }}>
               {t.easterHint}
             </div>
 
