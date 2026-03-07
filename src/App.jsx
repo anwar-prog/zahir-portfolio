@@ -152,8 +152,8 @@ function CVModal({ onClose, lang }) {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           {[
-            { label: "English", sub: isDE ? "Englische Version" : "English version", file: "/english-cv.pdf", dlName: "Zahir_Hussain_CV_EN.pdf", accent: "#06b6d4", accentBg: "rgba(6,182,212,0.06)", accentBorder: "rgba(6,182,212,0.2)" },
             { label: "Deutsch", sub: isDE ? "Deutsche Version" : "German version", file: "/deutsch-cv.pdf", dlName: "Zahir_Hussain_Lebenslauf_DE.pdf", accent: "#3b82f6", accentBg: "rgba(59,130,246,0.06)", accentBorder: "rgba(59,130,246,0.2)" },
+            { label: "English", sub: isDE ? "Englische Version" : "English version", file: "/english-cv.pdf", dlName: "Zahir_Hussain_CV_EN.pdf", accent: "#06b6d4", accentBg: "rgba(6,182,212,0.06)", accentBorder: "rgba(6,182,212,0.2)" },
           ].map((opt) => (
             <a key={opt.label} href={opt.file} download={opt.dlName} onClick={onClose}
               style={{ display: "flex", alignItems: "center", gap: 16, padding: "18px 20px", background: opt.accentBg, border: `1px solid ${opt.accentBorder}`, borderRadius: 16, textDecoration: "none", transition: "all 0.25s ease" }}
@@ -194,9 +194,8 @@ const translations = {
     whoIAm: "WHO I AM",
     aboutTitle: "About Me",
     aboutParas: [
-      "I hold a Master's degree in Artificial Intelligence from THWS Würzburg-Schweinfurt. My work focuses on building machine learning systems for practical environments where data, models, and software systems must operate together.",
-      "My projects include predictive modeling for district heat demand, development of machine learning experimentation pipelines, and backend systems supporting AI-driven applications.",
-      "Alongside model development, I build the surrounding system infrastructure, including APIs, data pipelines, and deployment environments required to run machine learning systems in production.",
+      "I enjoy working at the intersection of research and real systems. My curiosity lies in understanding how models behave, how data shapes decisions, and how experiments turn ideas into reliable solutions.",
+      "I like building systems where algorithms are not just trained, but carefully evaluated, questioned, and improved. And I also like exploring data, designing experiments, and turning research ideas into working solutions.",
     ],
     capCards: [
       { icon: "🧠", title: "ML & AI", desc: "Supervised learning, neural networks, predictive modeling, model evaluation" },
@@ -215,9 +214,9 @@ const translations = {
         company: "Technische Hochschule Würzburg-Schweinfurt (THWS)",
         period: "Dec 2025 – Present",
         points: [
-          "Developed backend services for an AI-based conversational assistant, including four calendar APIs (create, check, update, delete) built with Node.js, Express, and MongoDB.",
-          "Implemented React and Tailwind components enabling users to interact with scheduling and reminder functionality through the AI assistant.",
-          "Deployed the system in a Docker environment on a VPS with HTTPS configuration and integrated backend services for reliable operation.",
+          "Enhanced a conversational AI assistant within a web application by improving tool interactions and assistant prompt configuration for reliable calendar automation.",
+          "Designed and implemented four AI tool interfaces for calendar management (create, check, update, delete events) by defining tool schemas and connecting backend APIs using Node.js and REST.",
+          "Supported system deployment in a Docker-based environment and implemented an HTTPS proxy solution to enable secure communication between AI tools and backend services.",
         ],
       },
       {
@@ -225,9 +224,9 @@ const translations = {
         company: "Reborse Startup",
         period: "Jun 2025 – Present",
         points: [
-          "Contributed to the design and development of backend services supporting the platform's core functionality.",
-          "Developed an AI-powered chatbot system to assist users with platform interactions and automated responses.",
-          "Designed and evaluated AI-related system components with focus on model reliability, inference workflows, and system integration.",
+          "Contributed to backend development and system architecture for a platform supporting structured data access and core application services.",
+          "Developed an AI-powered chatbot to assist users with platform interactions and automated responses.",
+          "Designed and evaluated AI system components with focus on inference reliability, backend integration, and scalable application workflows.",
         ],
       },
       {
@@ -376,12 +375,11 @@ const translations = {
     heroDesc: "Angewandter KI-Ingenieur an der Schnittstelle von ML-Forschung und intelligenter Systementwicklung. Ich entwerfe datengetriebene Modelle und End-to-End-KI-Lösungen, die reale Daten in verlässliche Entscheidungsunterstützungssysteme übersetzen — Brücke zwischen akademischer Forschung und praktischer Ingenieuranwendung.",
     exploreBtn: "Meine Arbeit entdecken",
     downloadBtn: "Lebenslauf herunterladen",
-    whoIAm: "ÜBER MICH",
+    whoIAm: "WER ICH BIN",
     aboutTitle: "Über mich",
     aboutParas: [
-      "Ich habe einen Master-Abschluss in Künstlicher Intelligenz von der THWS Würzburg-Schweinfurt. Meine Arbeit konzentriert sich auf den Aufbau von Machine-Learning-Systemen für praktische Umgebungen, in denen Daten, Modelle und Softwaresysteme zusammenarbeiten müssen.",
-      "Meine Projekte umfassen prädiktive Modellierung für den Fernwärmebedarf, die Entwicklung von ML-Experimentierpipelines und Backend-Systeme zur Unterstützung KI-gestützter Anwendungen.",
-      "Neben der Modellentwicklung baue ich die umgebende Systeminfrastruktur auf, einschließlich APIs, Datenpipelines und Deployment-Umgebungen, die für den Betrieb von ML-Systemen in der Produktion erforderlich sind.",
+      "Ich arbeite gerne an der Schnittstelle zwischen Forschung und realen Systemen. Meine Neugier gilt dem Verständnis, wie Modelle funktionieren, wie Daten Entscheidungen formen und wie Experimente Ideen in zuverlässige Lösungen verwandeln.",
+      "Ich baue Systeme, in denen Algorithmen nicht nur trainiert, sondern sorgfältig evaluiert, hinterfragt und verbessert werden. Außerdem erkunde ich gerne Daten, gestalte Experimente und überführe Forschungsideen in funktionierende Lösungen.",
     ],
     capCards: [
       { icon: "🧠", title: "ML & KI", desc: "Überwachtes Lernen, neuronale Netze, prädiktive Modellierung, Modellbewertung" },
@@ -400,9 +398,9 @@ const translations = {
         company: "Technische Hochschule Würzburg-Schweinfurt (THWS)",
         period: "Dez. 2025 – Heute",
         points: [
-          "Backend-Dienste für einen KI-basierten Gesprächsassistenten entwickelt, einschließlich vier Kalender-APIs (erstellen, prüfen, aktualisieren, löschen) mit Node.js, Express und MongoDB.",
-          "React- und Tailwind-Komponenten implementiert, die es Nutzern ermöglichen, über den KI-Assistenten mit Terminplanungs- und Erinnerungsfunktionen zu interagieren.",
-          "Das System in einer Docker-Umgebung auf einem VPS mit HTTPS-Konfiguration und integrierten Backend-Diensten für zuverlässigen Betrieb bereitgestellt.",
+          "Einen konversationellen KI-Assistenten in einer Webanwendung verbessert – durch optimierte Tool-Interaktionen und Prompt-Konfiguration für zuverlässige Kalenderautomatisierung.",
+          "Vier KI-Tool-Schnittstellen für die Kalenderverwaltung (Erstellen, Prüfen, Aktualisieren, Löschen von Terminen) entwickelt – durch Definition von Tool-Schemas und Anbindung von Backend-APIs mit Node.js und REST.",
+          "System-Deployment in einer Docker-Umgebung unterstützt und eine HTTPS-Proxy-Lösung implementiert, um sichere Kommunikation zwischen KI-Tools und Backend-Diensten zu gewährleisten.",
         ],
       },
       {
@@ -410,9 +408,9 @@ const translations = {
         company: "Reborse Startup",
         period: "Jun. 2025 – Heute",
         points: [
-          "Zur Konzeption und Entwicklung von Backend-Diensten beigetragen, die die Kernfunktionalität der Plattform unterstützen.",
-          "Ein KI-gestütztes Chatbot-System entwickelt, das Nutzern bei Plattforminteraktionen und automatisierten Antworten hilft.",
-          "KI-bezogene Systemkomponenten mit Fokus auf Modellzuverlässigkeit, Inferenz-Workflows und Systemintegration konzipiert und bewertet.",
+          "Zur Backend-Entwicklung und Systemarchitektur einer Plattform beigetragen, die strukturierten Datenzugriff und Kernanwendungsdienste unterstützt.",
+          "Einen KI-gestützten Chatbot entwickelt, der Nutzern bei Plattforminteraktionen und automatisierten Antworten hilft.",
+          "KI-Systemkomponenten mit Fokus auf Inferenzzuverlässigkeit, Backend-Integration und skalierbare Anwendungs-Workflows konzipiert und bewertet.",
         ],
       },
       {
@@ -1003,22 +1001,26 @@ function App() {
 
           {/* ══ ABOUT ════════════════════════════════════════════════ */}
           <section id="about" style={{ padding:"120px 24px", maxWidth:1200, margin:"0 auto" }}>
-            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:80, alignItems:"start" }}>
-              <div>
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:0, alignItems:"start" }}>
+              <div style={{ paddingRight:40 }}>
                 <p style={{ color:"#06b6d4", fontSize:13, fontWeight:600, letterSpacing:"0.1em", marginBottom:16 }}>{t.whoIAm}</p>
                 <h2 className="section-title underline-accent" style={{ fontSize:"clamp(28px,4vw,44px)", marginBottom:32, lineHeight:1.2 }}>{t.aboutTitle}</h2>
                 {t.aboutParas.map((para, i) => (
                   <p key={i} style={{ color:"#94a3b8", lineHeight:1.9, marginBottom:18, fontSize:15 }}>{para}</p>
                 ))}
               </div>
-              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 }}>
-                {t.capCards.map((c) => (
-                  <div key={c.title} className="card-hover" style={{ background:"rgba(15,23,42,0.8)", border:"1px solid rgba(51,65,85,0.6)", borderRadius:16, padding:24 }}>
-                    <div style={{ fontSize:26, marginBottom:12 }}>{c.icon}</div>
-                    <div style={{ fontWeight:700, fontSize:13, marginBottom:6, color:"#e2e8f0" }}>{c.title}</div>
-                    <div style={{ color:"#64748b", fontSize:12, lineHeight:1.6 }}>{c.desc}</div>
-                  </div>
-                ))}
+              {/* Portrait column */}
+              <div style={{ position:"relative", display:"flex", justifyContent:"flex-end", alignItems:"flex-start", marginTop:"-8px" }}>
+                {/* Bottom fade */}
+                <div style={{ position:"absolute", bottom:0, left:0, right:0, height:120, background:"linear-gradient(to top, #080f1a 0%, transparent 100%)", zIndex:2, pointerEvents:"none" }} />
+                <img src="/dp.png" alt="Zahir Hussain"
+                  style={{
+                    width:"82%", maxWidth:340, position:"relative", zIndex:1,
+                    display:"block",
+                    mixBlendMode:"screen",
+                    filter:"brightness(0.95) contrast(1.05)",
+                  }}
+                />
               </div>
             </div>
             <div style={{ marginTop:60, borderRadius:20, padding:"40px 48px", textAlign:"center", background:"linear-gradient(135deg,rgba(6,182,212,0.06),rgba(59,130,246,0.06))", border:"1px solid rgba(6,182,212,0.15)" }}>
