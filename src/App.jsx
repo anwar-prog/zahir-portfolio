@@ -364,7 +364,7 @@ const translations = {
         tools: ["Python", "Scikit-learn", "TensorFlow", "Keras", "PyTorch", "NumPy", "Pandas"],
       },
       {
-        category: "Systems & Backend",
+        category: "Systems & Development",
         tools: ["Node.js", "React", "MongoDB", "Firebase", "Docker", "Git", "REST APIs"],
       },
     ],
@@ -391,7 +391,7 @@ const translations = {
     ctaText: "I'm actively seeking opportunities in AI engineering and research where I can apply ML expertise to solve real-world problems. Whether it's a full-time role or a research collaboration, let's talk ;)",
     ctaBtn: "Get In Touch",
     footer: "Built with React & TailwindCSS",
-    easterHint: "You made it to the end… try pressing the last letter of the alphabet on your keyboard.",
+    easterHint: "You made it to the end… try pressing the last letter of the alphabet.",
   },
 
   de: {
@@ -569,7 +569,7 @@ const translations = {
         tools: ["Python", "Scikit-learn", "TensorFlow", "Keras", "PyTorch", "NumPy", "Pandas"],
       },
       {
-        category: "Systeme & Backend",
+        category: "Systeme & Entwicklung",
         tools: ["Node.js", "React", "MongoDB", "Firebase", "Docker", "Git", "REST APIs"],
       },
     ],
@@ -596,27 +596,19 @@ const translations = {
     ctaText: "Ich suche aktiv nach Möglichkeiten im KI-Engineering und in der Forschung. Ob Vollzeitstelle oder Forschungskooperation, ich freue mich auf das Gespräch ;)",
     ctaBtn: "Kontakt aufnehmen",
     footer: "Erstellt mit React & TailwindCSS",
-    easterHint: "Du hast es bis zum Ende geschafft… drück den letzten Buchstaben des Alphabets auf deiner Tastatur.",
+    easterHint: "Du hast es bis zum Ende geschafft… drück den letzten Buchstaben des Alphabets.",
   },
 };
 
 /* ─── Easter Egg Modal ───────────────────────────────────────── */
 function EasterEggModal({ onClose, lang }) {
   const isDE = lang === "de";
-  const [opacity, setOpacity] = useState(1);
-
-  useEffect(() => {
-    const fadeTimer = setTimeout(() => setOpacity(0), 6000);
-    const closeTimer = setTimeout(() => onClose(), 8000);
-    return () => { clearTimeout(fadeTimer); clearTimeout(closeTimer); };
-  }, []);
 
   return (
     <div onClick={onClose} style={{
       position:"fixed", inset:0, zIndex:1000,
       background:"rgba(0,0,0,0.55)", backdropFilter:"blur(10px)",
       display:"flex", alignItems:"center", justifyContent:"center", padding:20,
-      opacity, transition:"opacity 2s ease",
     }}>
       {/* Glow pulse behind card */}
       <div style={{
@@ -641,8 +633,6 @@ function EasterEggModal({ onClose, lang }) {
           </span>
         </div>
 
-        {/* Star */}
-
         <h3 style={{ fontFamily:"'Outfit',sans-serif", fontWeight:800, fontSize:19, color:"#06b6d4", marginBottom:16, whiteSpace:"nowrap" }}>
           {isDE ? "Respekt!! Du hast Z gedrückt" : "Respect!! You pressed Z"}
         </h3>
@@ -654,6 +644,11 @@ function EasterEggModal({ onClose, lang }) {
               ? <>Wenn du <strong style={{ color:"#e2e8f0" }}>einstellst</strong> → LinkedIn und E-Mail warten oben.<br/>Wenn du <strong style={{ color:"#e2e8f0" }}>erkundest</strong> → danke für die Neugier.</>
               : <>If you're <strong style={{ color:"#e2e8f0" }}>hiring</strong> → LinkedIn and email are waiting above.<br/>If you're <strong style={{ color:"#e2e8f0" }}>exploring</strong> → thanks for the curiosity.</>}
           </span>
+        </p>
+
+        {/* Close hint */}
+        <p style={{ marginTop:20, fontSize:11, color:"#1e293b", letterSpacing:"0.05em" }}>
+          {isDE ? "Z erneut drücken zum Schließen" : "Press Z again to close"}
         </p>
       </div>
     </div>
@@ -843,6 +838,8 @@ function App() {
   const [showContactModal, setShowContactModal] = useState(false);
   const [showLocationCard, setShowLocationCard] = useState(false);
   const [showEasterEgg, setShowEasterEgg] = useState(false);
+  const [footerVisible, setFooterVisible] = useState(false);
+  const footerRef = useRef(null);
   const [heroVisible, setHeroVisible] = useState(false);
   const [heroOpacity, setHeroOpacity] = useState(1);
 
@@ -873,17 +870,22 @@ function App() {
         setShowLocationCard(false);
       }
       if (e.key === "z" || e.key === "Z") {
-        setShowEasterEgg(true);
+        if (showEasterEgg) { setShowEasterEgg(false); return; }
+        if (footerVisible) setShowEasterEgg(true);
       }
     };
+    // Footer visibility observer
+    const observer = new IntersectionObserver(([entry]) => setFooterVisible(entry.isIntersecting), { threshold: 0.1 });
+    if (footerRef.current) observer.observe(footerRef.current);
     window.addEventListener("scroll", onScroll);
     window.addEventListener("keydown", onKeyDown);
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("resize", checkMobile);
+      observer.disconnect();
     };
-  }, []);
+  }, [showEasterEgg, footerVisible]);
 
   const contactHrefs = [
     "mailto:zsharikanwar@gmail.com",
@@ -1306,7 +1308,11 @@ function App() {
                   if (isLocation) {
                     return (
                       <div key={c.label} style={{ position:"relative" }}>
-                        <button onClick={() => setShowLocationCard(v => !v)}
+                        <button onClick={(e) => {
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            window.__locDown = rect.top < window.innerHeight * 0.55;
+                            setShowLocationCard(v => !v);
+                          }}
                           className="card-hover"
                           style={{ display:"block", width:"100%", textAlign:"center", background:"rgba(15,23,42,0.8)", border:"1px solid rgba(51,65,85,0.6)", borderRadius:16, padding:"28px 20px", cursor:"pointer", fontFamily:"'Outfit',sans-serif" }}>
                           <div style={{ width:52, height:52, borderRadius:"50%", background:contactIconBgs[i], display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px" }}>{contactIcons[i]}</div>
@@ -1318,14 +1324,21 @@ function App() {
                             {/* Outside click overlay */}
                             <div onClick={() => setShowLocationCard(false)} style={{ position:"fixed", inset:0, zIndex:99 }} />
                             <div className="location-popup" style={{
-                              position:"absolute", bottom:"calc(100% + 12px)", left:"50%", transform:"translateX(-50%)",
+                              position:"absolute",
+                              ...(window.__locDown
+                                ? { top:"calc(100% + 12px)", bottom:"auto" }
+                                : { bottom:"calc(100% + 12px)", top:"auto" }),
+                              left:"50%", transform:"translateX(-50%)",
                               background:"linear-gradient(135deg,#0d1a2e,#0a1628)",
                               border:"1px solid rgba(139,92,246,0.35)", borderRadius:14,
                               padding:"18px 22px", width:240, zIndex:100, textAlign:"left",
                               boxShadow:"0 20px 50px rgba(0,0,0,0.5)",
                               animation:"slideUp 0.3s cubic-bezier(0.4,0,0.2,1) forwards",
                             }}>
-                              <div style={{ position:"absolute", bottom:-7, left:"50%", transform:"translateX(-50%)", width:12, height:12, background:"#0d1a2e", border:"1px solid rgba(139,92,246,0.35)", borderTop:"none", borderLeft:"none", rotate:"45deg" }} />
+                              {window.__locDown
+                                ? <div style={{ position:"absolute", top:-7, left:"50%", transform:"translateX(-50%)", width:12, height:12, background:"#0d1a2e", border:"1px solid rgba(139,92,246,0.35)", borderBottom:"none", borderRight:"none", rotate:"45deg" }} />
+                                : <div style={{ position:"absolute", bottom:-7, left:"50%", transform:"translateX(-50%)", width:12, height:12, background:"#0d1a2e", border:"1px solid rgba(139,92,246,0.35)", borderTop:"none", borderLeft:"none", rotate:"45deg" }} />
+                              }
                               {[
                                 { icon:"📍", text: t.locationCard[0] },
                                 { icon:"✈️", text: t.locationCard[1] },
@@ -1364,7 +1377,7 @@ function App() {
           </section>
 
           {/* ══ FOOTER ═══════════════════════════════════════════════ */}
-          <footer style={{ borderTop:"1px solid rgba(51,65,85,0.4)", padding:"32px 24px 28px", textAlign:"center", color:"#334155", fontSize:13, background:"rgba(8,15,26,0.9)", position:"relative" }}>
+          <footer ref={footerRef} style={{ borderTop:"1px solid rgba(51,65,85,0.4)", padding:"32px 24px 28px", textAlign:"center", color:"#334155", fontSize:13, background:"rgba(8,15,26,0.9)", position:"relative" }}>
             <div style={{ marginBottom:12 }}>
               © {new Date().getFullYear()} Sharik Anwar Zahir Hussain &nbsp;·&nbsp; {t.footer}
             </div>
