@@ -399,7 +399,7 @@ const translations = {
     navIds: ["about", "experience", "projects", "skills", "contact"],
     badge: "Offen für Stellenangebote",
     heroTitle: "KI-Forscher & Entwickler Intelligenter Systeme",
-    heroDesc: "Angewandter KI-Ingenieur an der Schnittstelle von ML-Forschung und intelligenter Systementwicklung. Ich entwerfe datengetriebene Modelle und End-to-End-KI-Lösungen, die reale Daten in verlässliche Entscheidungsunterstützungssysteme übersetzen — Brücke zwischen akademischer Forschung und praktischer Ingenieuranwendung.",
+    heroDesc: "Angewandter KI-Ingenieur an der Schnittstelle von ML-Forschung und intelligenter Systementwicklung. Ich entwerfe datengetriebene Modelle und End-to-End-KI-Lösungen, die reale Daten in verlässliche Entscheidungsunterstützungssysteme übersetzen - Brücke zwischen akademischer Forschung und praktischer Ingenieuranwendung.",
     heroDescMobile: "Aufbau datengetriebener KI-Systeme, die ML-Forschung mit realen Anwendungen verbinden.",
     exploreBtn: "Meine Arbeit entdecken",
     downloadBtn: "Lebenslauf herunterladen",
