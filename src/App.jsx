@@ -48,7 +48,7 @@ function LanguageCard({ name, code, level, color }) {
 }
 
 /* ─── Featured project card ──────────────────────────────────── */
-function FeaturedProject({ title, subtitle, description, descriptionMobile, achievements, achievementsMobile, achievementsLabel, tags, githubUrl, color, index, panel, isMobile }) {
+function FeaturedProject({ title, subtitle, description, descriptionMobile, achievements, achievementsMobile, achievementsLabel, tags, githubUrl, liveUrl, color, index, panel, isMobile }) {
   const isEven = index % 2 === 0;
   const displayDesc = isMobile && descriptionMobile ? descriptionMobile : description;
   const displayAchievements = isMobile && achievementsMobile ? achievementsMobile : achievements;
@@ -76,6 +76,7 @@ function FeaturedProject({ title, subtitle, description, descriptionMobile, achi
               <span key={t} className="px-3 py-1 text-xs rounded-full border border-slate-600 text-gray-300">{t}</span>
             ))}
           </div>
+          <div className="flex flex-wrap gap-3">
           {githubUrl && (
             <a href={githubUrl} target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-slate-600 text-sm text-gray-300 hover:border-cyan-400 hover:text-cyan-400 transition-all duration-300">
@@ -85,6 +86,17 @@ function FeaturedProject({ title, subtitle, description, descriptionMobile, achi
               View Code
             </a>
           )}
+          {liveUrl && (
+            <a href={liveUrl} target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300"
+              style={{ background:`${color}18`, border:`1px solid ${color}50`, color:color }}>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              Live Demo
+            </a>
+          )}
+          </div>
         </div>
 
         {/* ── Info panel — hidden on mobile ── */}
@@ -189,8 +201,8 @@ const translations = {
     nav: ["About", "Experience", "Projects", "Skills", "Contact"],
     navIds: ["about", "experience", "projects", "skills", "contact"],
     badge: "Available for opportunities",
-    heroTitle: "AI Engineer & Software Developer",
-    heroDesc: "Applied AI Engineer focused on building data-driven systems and scalable software solutions. I develop machine learning models and backend services that transform real-world data into reliable, production-ready applications. My work combines AI, system design, and practical engineering to deliver efficient and usable solutions.",
+    heroTitle: "AI Researcher & Intelligent Systems Developer",
+    heroDesc: "Applied AI Engineer working at the intersection of machine learning research and intelligent system development. I design data-driven models and end-to-end AI solutions that transform real-world data into reliable decision support systems, bridging academic research with practical engineering applications.",
     heroDescMobile: "Building data-driven AI systems that bridge machine learning research with real-world applications.",
     exploreBtn: "Explore My Work",
     downloadBtn: "Download CV",
@@ -261,6 +273,33 @@ const translations = {
     viewAllGithub: "View All on GitHub",
     achievementsLabel: "KEY ACHIEVEMENTS",
     projects: [
+      {
+        title: "BewerbAI: AI-Powered Job Application Assistant",
+        subtitle: "Full-Stack AI Application — Live Product",
+        description: "Built a full-stack application that uses AI tools to automate job description analysis and generate tailored CVs and cover letters. The system supports bilingual workflows, modular automation pipelines, and structured user interaction across the entire application process.",
+        descriptionMobile: "Full-stack AI application that automates job description analysis and generates tailored CVs and cover letters. Supports bilingual workflows and structured automation pipelines.",
+        achievements: [
+          "Built a full-stack app using AI tools to automate job description analysis",
+          "Generated tailored CVs and cover letters from parsed job descriptions",
+          "Implemented PDF parsing, bilingual workflows, and modular automation pipelines",
+          "Deployed with secure backend API handling for reliable automation processes",
+        ],
+        achievementsMobile: [
+          "AI-powered job description analysis with tailored CV and cover letter generation",
+          "Deployed with secure API handling and modular bilingual automation pipelines",
+        ],
+        tags: ["React", "Node.js", "AI Tools", "PDF Parsing", "REST APIs", "Vercel"],
+        color: "#f59e0b",
+        githubUrl: "https://github.com/anwar-prog/jobfit-ai",
+        liveUrl: "https://bewerbai.vercel.app/",
+        panel: [
+          { label: "Type",    value: "Live Product" },
+          { label: "Period",  value: "Jan – Mar 2026" },
+          { label: "Stack",   value: "React · Node.js · AI" },
+          { label: "Role",    value: "Full-Stack Dev" },
+          { label: "Outcome", value: "Deployed & live" },
+        ],
+      },
       {
         title: "AI-Based Heat Demand Forecasting",
         subtitle: "Master's Thesis — Applied Machine Learning",
@@ -398,8 +437,8 @@ const translations = {
     nav: ["Über mich", "Erfahrung", "Projekte", "Fähigkeiten", "Kontakt"],
     navIds: ["about", "experience", "projects", "skills", "contact"],
     badge: "Offen für Stellenangebote",
-    heroTitle: "AI Engineer & Software Developer",
-    heroDesc: "Angewandter KI-Ingenieur mit Fokus auf datengetriebene Systeme und skalierbare Softwarelösungen. Ich entwickle Machine-Learning-Modelle und Backend-Services, die reale Daten in zuverlässige, produktionsreife Anwendungen umwandeln. Dabei verbinde ich KI, Systemdesign und praktische Softwareentwicklung, um effiziente und nutzbare Lösungen zu schaffen.",
+    heroTitle: "KI-Forscher & Entwickler Intelligenter Systeme",
+    heroDesc: "Angewandter KI-Ingenieur an der Schnittstelle von ML-Forschung und intelligenter Systementwicklung. Ich entwerfe datengetriebene Modelle und End-to-End-KI-Lösungen, die reale Daten in verlässliche Entscheidungsunterstützungssysteme übersetzen — Brücke zwischen akademischer Forschung und praktischer Ingenieuranwendung.",
     heroDescMobile: "Aufbau datengetriebener KI-Systeme, die ML-Forschung mit realen Anwendungen verbinden.",
     exploreBtn: "Meine Arbeit entdecken",
     downloadBtn: "Lebenslauf herunterladen",
@@ -470,6 +509,33 @@ const translations = {
     viewAllGithub: "Alle auf GitHub ansehen",
     achievementsLabel: "WICHTIGE LEISTUNGEN",
     projects: [
+      {
+        title: "BewerbAI: KI-gestützter Bewerbungsassistent",
+        subtitle: "Full-Stack-KI-Anwendung — Live-Produkt",
+        description: "Full-Stack-Anwendung entwickelt, die KI-Tools nutzt, um Stellenbeschreibungen zu analysieren und maßgeschneiderte Lebensläufe und Anschreiben zu generieren. Das System unterstützt zweisprachige Workflows, modulare Automatisierungspipelines und strukturierte Nutzerinteraktionen.",
+        descriptionMobile: "KI-Anwendung zur automatischen Analyse von Stellenbeschreibungen und Erstellung maßgeschneiderter Bewerbungsunterlagen. Unterstützt zweisprachige Workflows und modulare Automatisierungspipelines.",
+        achievements: [
+          "Full-Stack-App mit KI-Tools zur Automatisierung der Stellenbeschreibungsanalyse entwickelt",
+          "Maßgeschneiderte Lebensläufe und Anschreiben aus analysierten Stellenbeschreibungen generiert",
+          "PDF-Parsing, zweisprachige Workflows und modulare Automatisierungspipelines implementiert",
+          "Mit sicherem Backend-API-Handling für zuverlässige Automatisierungsprozesse deployed",
+        ],
+        achievementsMobile: [
+          "KI-gestützte Stellenanalyse mit maßgeschneiderter Lebenslauf- und Anschreibengenerierung",
+          "Mit sicherem API-Handling und modularen zweisprachigen Pipelines deployed",
+        ],
+        tags: ["React", "Node.js", "KI-Tools", "PDF-Parsing", "REST APIs", "Vercel"],
+        color: "#f59e0b",
+        githubUrl: "https://github.com/anwar-prog/jobfit-ai",
+        liveUrl: "https://bewerbai.vercel.app/",
+        panel: [
+          { label: "Typ",      value: "Live-Produkt" },
+          { label: "Zeitraum", value: "Jan – März 2026" },
+          { label: "Stack",    value: "React · Node.js · KI" },
+          { label: "Rolle",    value: "Full-Stack-Entwickler" },
+          { label: "Ergebnis", value: "Deployed & live" },
+        ],
+      },
       {
         title: "KI-basierte Wärmebedarfsprognose",
         subtitle: "Masterarbeit — Angewandtes Maschinelles Lernen",
