@@ -419,10 +419,9 @@ const translations = {
       { label: "Email", value: "zsharikanwar@gmail.com" },
       { label: "LinkedIn", value: "linkedin.com/in/zahirhussain" },
       { label: "GitHub", value: "github.com/anwar-prog" },
-      { label: "Location", value: "Würzburg, Germany" },
     ],
     locationCard: [
-      "Based in Würzburg, Germany",
+      "Based in Germany",
       "Open to relocation across the EU",
       "Authorized to work in Germany",
     ],
@@ -651,10 +650,9 @@ const translations = {
       { label: "E-Mail", value: "zsharikanwar@gmail.com" },
       { label: "LinkedIn", value: "linkedin.com/in/zahirhussain" },
       { label: "GitHub", value: "github.com/anwar-prog" },
-      { label: "Standort", value: "Würzburg, Deutschland" },
     ],
     locationCard: [
-      "Wohnhaft in Würzburg, Deutschland",
+      "Wohnhaft in Deutschland",
       "Offen für Umzug innerhalb der EU",
       "Arbeitserlaubnis in Deutschland",
     ],
@@ -957,19 +955,16 @@ function App() {
     "mailto:zsharikanwar@gmail.com",
     "https://www.linkedin.com/in/sharik-anwar-zahir-hussain/",
     "https://github.com/anwar-prog",
-    null,
   ];
   const contactIconBgs = [
     "linear-gradient(135deg, #06b6d4, #3b82f6)",
     "linear-gradient(135deg, #0ea5e9, #06b6d4)",
     "linear-gradient(135deg, #10b981, #06b6d4)",
-    "linear-gradient(135deg, #8b5cf6, #06b6d4)",
   ];
   const contactIcons = [
     <svg width="22" height="22" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>,
     <svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>,
     <svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>,
-    <svg width="22" height="22" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>,
   ];
 
   return (
@@ -1023,7 +1018,7 @@ function App() {
               .about-portrait { display: none !important; }
               .projects-grid { grid-template-columns: 1fr !important; }
               .project-info-panel { display: none !important; }
-              .contact-cards-grid { grid-template-columns: 1fr 1fr !important; }
+              .contact-cards-grid { grid-template-columns: 1fr !important; }
               .skills-grid { grid-template-columns: 1fr !important; }
               .footer-easter { display: none !important; }
               .hero-btns { flex-direction: column !important; align-items: center !important; gap: 12px !important; }
@@ -1356,9 +1351,8 @@ function App() {
                 <h2 className="section-title underline-accent" style={{ fontSize:"clamp(28px,4vw,44px)", marginBottom:16 }}>{t.contactTitle}</h2>
                 <p style={{ color:"#64748b", fontSize:15 }}>{t.contactSubtitle}</p>
               </div>
-              <div className="contact-cards-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:16, marginBottom:48 }}>
+              <div className="contact-cards-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:16, marginBottom:48 }}>
                 {t.contactCards.map((c, i) => {
-                  const isLocation = i === 3;
                   const isEmail = i === 0;
                   if (isEmail) {
                     return (
@@ -1369,56 +1363,6 @@ function App() {
                         <div style={{ fontWeight:700, fontSize:14, marginBottom:6, color:"#e2e8f0" }}>{c.label}</div>
                         <div style={{ color:"#475569", fontSize:12, wordBreak:"break-all" }}>{c.value}</div>
                       </button>
-                    );
-                  }
-                  if (isLocation) {
-                    return (
-                      <div key={c.label} style={{ position:"relative" }}>
-                        <button onClick={(e) => {
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            window.__locDown = rect.top < window.innerHeight * 0.55;
-                            setShowLocationCard(v => !v);
-                          }}
-                          className="card-hover"
-                          style={{ display:"block", width:"100%", textAlign:"center", background:"rgba(15,23,42,0.8)", border:"1px solid rgba(51,65,85,0.6)", borderRadius:16, padding:"28px 20px", cursor:"pointer", fontFamily:"'Outfit',sans-serif" }}>
-                          <div style={{ width:52, height:52, borderRadius:"50%", background:contactIconBgs[i], display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px" }}>{contactIcons[i]}</div>
-                          <div style={{ fontWeight:700, fontSize:14, marginBottom:6, color:"#e2e8f0" }}>{c.label}</div>
-                          <div style={{ color:"#475569", fontSize:12 }}>{c.value}</div>
-                        </button>
-                        {showLocationCard && (
-                          <>
-                            {/* Outside click overlay */}
-                            <div onClick={() => setShowLocationCard(false)} style={{ position:"fixed", inset:0, zIndex:99 }} />
-                            <div className="location-popup" style={{
-                              position:"absolute",
-                              ...(window.__locDown
-                                ? { top:"calc(100% + 12px)", bottom:"auto" }
-                                : { bottom:"calc(100% + 12px)", top:"auto" }),
-                              left:"50%", transform:"translateX(-50%)",
-                              background:"linear-gradient(135deg,#0d1a2e,#0a1628)",
-                              border:"1px solid rgba(139,92,246,0.35)", borderRadius:14,
-                              padding:"18px 22px", width:240, zIndex:100, textAlign:"left",
-                              boxShadow:"0 20px 50px rgba(0,0,0,0.5)",
-                              animation:"slideUp 0.3s cubic-bezier(0.4,0,0.2,1) forwards",
-                            }}>
-                              {window.__locDown
-                                ? <div style={{ position:"absolute", top:-7, left:"50%", transform:"translateX(-50%)", width:12, height:12, background:"#0d1a2e", border:"1px solid rgba(139,92,246,0.35)", borderBottom:"none", borderRight:"none", rotate:"45deg" }} />
-                                : <div style={{ position:"absolute", bottom:-7, left:"50%", transform:"translateX(-50%)", width:12, height:12, background:"#0d1a2e", border:"1px solid rgba(139,92,246,0.35)", borderTop:"none", borderLeft:"none", rotate:"45deg" }} />
-                              }
-                              {[
-                                { icon:"📍", text: t.locationCard[0] },
-                                { icon:"✈️", text: t.locationCard[1] },
-                                { icon:"✅", text: t.locationCard[2] },
-                              ].map((row, ri) => (
-                                <div key={ri} style={{ display:"flex", alignItems:"flex-start", gap:10, marginBottom: ri < 2 ? 12 : 0 }}>
-                                  <span style={{ fontSize:14, flexShrink:0, marginTop:1 }}>{row.icon}</span>
-                                  <span style={{ fontSize:13, color:"#cbd5e1", lineHeight:1.5 }}>{row.text}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </>
-                        )}
-                      </div>
                     );
                   }
                   return (
