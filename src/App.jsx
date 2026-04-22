@@ -152,7 +152,7 @@ function CVModal({ onClose, lang }) {
                 </svg>
               </div>
               <h3 style={{ fontSize: 20, fontWeight: 800, color: "#e2e8f0", fontFamily: "'Outfit', sans-serif" }}>
-                {isDE ? "Lebenslauf herunterladen" : "Download CV"}
+                {isDE ? "Lebenslauf ansehen" : "View CV"}
               </h3>
             </div>
             <p style={{ color: "#64748b", fontSize: 13 }}>
@@ -166,16 +166,16 @@ function CVModal({ onClose, lang }) {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           {[
-            { label: "Deutsch", sub: isDE ? "Deutsche Version" : "German version", file: "/deutsch-cv.pdf", dlName: "Zahir_Hussain_Lebenslauf_DE.pdf", accent: "#3b82f6", accentBg: "rgba(59,130,246,0.06)", accentBorder: "rgba(59,130,246,0.2)" },
-            { label: "English", sub: isDE ? "Englische Version" : "English version", file: "/english-cv.pdf", dlName: "Zahir_Hussain_CV_EN.pdf", accent: "#06b6d4", accentBg: "rgba(6,182,212,0.06)", accentBorder: "rgba(6,182,212,0.2)" },
+            { label: "Deutsch", sub: isDE ? "Deutsche Version" : "German version", file: "/Zahir_Hussain_Lebenslauf_DE.pdf", dlName: "Zahir_Hussain_Lebenslauf_DE.pdf", accent: "#3b82f6", accentBg: "rgba(59,130,246,0.06)", accentBorder: "rgba(59,130,246,0.2)" },
+            { label: "English", sub: isDE ? "Englische Version" : "English version", file: "/Zahir_Hussain_CV_EN.pdf", dlName: "Zahir_Hussain_CV_EN.pdf", accent: "#06b6d4", accentBg: "rgba(6,182,212,0.06)", accentBorder: "rgba(6,182,212,0.2)" },
           ].map((opt) => (
-            <a key={opt.label} href={opt.file} download={opt.dlName} onClick={onClose}
+            <a key={opt.label} href={opt.file} target="_blank" rel="noreferrer" onClick={onClose}
               style={{ display: "flex", alignItems: "center", gap: 16, padding: "18px 20px", background: opt.accentBg, border: `1px solid ${opt.accentBorder}`, borderRadius: 16, textDecoration: "none", transition: "all 0.25s ease" }}
               onMouseEnter={(e) => { e.currentTarget.style.background = opt.accentBg.replace("0.06", "0.14"); e.currentTarget.style.borderColor = opt.accent + "80"; e.currentTarget.style.transform = "translateY(-2px)"; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = opt.accentBg; e.currentTarget.style.borderColor = opt.accentBorder; e.currentTarget.style.transform = "translateY(0)"; }}>
               <div style={{ width: 40, height: 40, borderRadius: 10, background: `${opt.accent}22`, border: `1px solid ${opt.accent}40`, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <svg width="18" height="18" fill="none" stroke={opt.accent} strokeWidth="2" viewBox="0 0 24 24">
-                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/>
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>
                 </svg>
               </div>
               <div style={{ flex: 1 }}>
@@ -183,7 +183,7 @@ function CVModal({ onClose, lang }) {
                 <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>{opt.sub}</div>
               </div>
               <svg width="16" height="16" fill="none" stroke={opt.accent} strokeWidth="2" viewBox="0 0 24 24">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
               </svg>
             </a>
           ))}
@@ -205,7 +205,7 @@ const translations = {
     heroDesc: "Applied AI Engineer working at the intersection of machine learning research and intelligent system development. I design data-driven models and end-to-end AI solutions that transform real-world data into reliable decision support systems, bridging academic research with practical engineering applications.",
     heroDescMobile: "Building data-driven AI systems that bridge machine learning research with real-world applications.",
     exploreBtn: "Explore My Work",
-    downloadBtn: "Download CV",
+    downloadBtn: "View CV",
     whoIAm: "WHO I AM",
     aboutTitle: "About Me",
     aboutParas: [
@@ -440,7 +440,7 @@ const translations = {
     heroDesc: "Angewandter KI-Ingenieur an der Schnittstelle von ML-Forschung und intelligenter Systementwicklung. Ich entwerfe datengetriebene Modelle und End-to-End-KI-Lösungen, die reale Daten in verlässliche Entscheidungsunterstützungssysteme übersetzen — Brücke zwischen akademischer Forschung und praktischer Ingenieuranwendung.",
     heroDescMobile: "Aufbau datengetriebener KI-Systeme, die ML-Forschung mit realen Anwendungen verbinden.",
     exploreBtn: "Meine Arbeit entdecken",
-    downloadBtn: "Lebenslauf herunterladen",
+    downloadBtn: "Lebenslauf ansehen",
     whoIAm: "WER ICH BIN",
     aboutTitle: "Über mich",
     aboutParas: [
@@ -1166,7 +1166,7 @@ function App() {
                 <a href="#projects" className="btn-primary">{t.exploreBtn}</a>
                 <button className="btn-secondary" onClick={() => setShowCVModal(true)}>
                   <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                    <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                   </svg>
                   {t.downloadBtn}
                 </button>
