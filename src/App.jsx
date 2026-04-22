@@ -232,7 +232,7 @@ const translations = {
       {
         role: "AI Systems Developer (Research Project)",
         company: "Technische Hochschule Würzburg-Schweinfurt (THWS)",
-        period: "Dec 2025 – Present",
+        period: "Dec 2025 – Apr 2026",
         points: [
           "Enhanced a conversational AI assistant within a web application by improving tool interactions and assistant prompt configuration for reliable calendar automation.",
           "Designed and implemented four AI tool interfaces for calendar management (create, check, update, delete events) by defining tool schemas and connecting backend APIs using Node.js and REST.",
@@ -467,7 +467,7 @@ const translations = {
       {
         role: "KI-Systementwickler (Forschungsprojekt)",
         company: "Technische Hochschule Würzburg-Schweinfurt (THWS)",
-        period: "Dez. 2025 – Heute",
+        period: "Dez. 2025 – Apr. 2026",
         points: [
           "Einen konversationellen KI-Assistenten in einer Webanwendung verbessert – durch optimierte Tool-Interaktionen und Prompt-Konfiguration für zuverlässige Kalenderautomatisierung.",
           "Vier KI-Tool-Schnittstellen für die Kalenderverwaltung (Erstellen, Prüfen, Aktualisieren, Löschen von Terminen) entwickelt – durch Definition von Tool-Schemas und Anbindung von Backend-APIs mit Node.js und REST.",
